@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Leckerli+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+.form h1 {
+    font-family: "Leckerli One", cursive;
+    font-weight: lighter;
+    font-size: 40px;
+    margin-bottom: 30px ;
+}
+.LoginForm{
+    width: 30%;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+}
+
+.loginIn{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+.loginIn img{
+    width: 75%;
+}
+.subContainer{
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 80%; */
+}
+.imageOnLeft{
+    display: flex;
+    justify-content: end;
+    width: 50%;
+}
+.form{
+    border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+.googlePlay{
+    display: flex;
+}
+.googlePlay img{
+    width: 130px;
+    margin-top: 10px;
+}
+.DontHaveAcc{
+    margin: 10px 0;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid grey;
+}
+.inputBox{
+    display: flex;
+    flex-direction: column;
+}
+.OR{
+    display: flex;
+    margin: 10px 0;
+    justify-content: center;
+    align-items: center;
+}
+.inputBox input{
+    margin: 10px 0;
+    padding: 10px 5px;
+    background-color: rgb(234, 234, 234);
+    border: 1px solid rgb(91, 91, 91);
+    border-radius: 3px;
+}
+.LoginForm button{
+    background-color: #0095F6;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-weight: 600;
+    border-radius: 7px;
+    margin: 10px 0;
+}
+.line{
+    width: 40%;
+    background-color: rgb(182, 182, 182);
+    height: 1px;
+    margin: 0 5px;
+}
+.forgetPass{
+    margin: 15px 0;
+}
+.playStore{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.LoginWithGoogle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.LoginWithGoogle>p{
+    font-size: 16px;
+    font-weight: bold;
+color: #00158b;
+margin-left: 10px;
+}
