@@ -1,19 +1,117 @@
 @import url('https://fonts.googleapis.com/css2?family=Leckerli+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.signUpForm{
+
+.signUpForm {
     font-family: "Roboto", sans-serif;
+    border: 1px solid black;
+    width: 100%;
+    min-width: 350px;
+    max-width: 350px;
+    padding: 30px 50px;
+    margin: auto;
 }
 
-.signUpForm > h1{
+.signUpForm>h1 {
     font-family: "Leckerli One", cursive;
 }
 
-.formContainer{
+.formContainer {
     width: 40%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.signUp button {
+    width: 100%;
+    padding: 8px 0;
+    border-radius: 8px;
+    border: none;
+    background-color: #1464f9;
+    color: white;
+    font-weight: bold;
+}
+
+.signUp p {
+    margin: 10px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: grey;
+}
+
+.OR {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.OR .line {
+    width: 30%;
+    background-color: grey;
+    height: 0.5px;
+}
+
+.loginForm {
+    width: 100%;
+}
+
+.loginForm input {
+    width: 100%;
+    padding: 8px 5px;
+    margin: 4px 0;
+}
+
+.loginForm p {
+    font-size: 12px;
+    margin: 10px 0 20px;
+}
+
+.loginForm button {
+    /* width: 100%; */
+    padding: 8px 30px;
+    border-radius: 8px;
+    border: none;
+    background-color: #1464f9;
+    color: white;
+    font-weight: bold;
+    /* margin: 10px 0; */
+}
+
+.haveAcc p {
+    font-size: 14px;
+    margin: 20px 0 0 0;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 350px;
+    /* margin: auto; */
+    padding: 20px 0px;
+    margin: 10px auto;
+    min-width: 350px;
+}
+.playStore{
+    width: 100%;
+    min-width: 350px;
+    max-width: 350px;
     margin: auto;
+    /* margin: 20px 0; */
+}
+.playStore p{
+    margin: 20px 0;
+}
+
+.playStore .googlePlay{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.googlePlay img{
+    width: 150px;
+    margin: 0px 0 10px;
 }

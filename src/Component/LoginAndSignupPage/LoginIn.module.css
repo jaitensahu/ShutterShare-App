@@ -10,6 +10,7 @@
     width: 30%;
     font-family: "Roboto", sans-serif;
     text-align: center;
+    min-width: 350px;
 }
 
 .loginIn{
@@ -102,4 +103,11 @@
     font-weight: bold;
 color: #00158b;
 margin-left: 10px;
+}
+
+@media screen and (max-width:800px){
+
+    .imageOnLeft{
+        display: none;
+    }
 }
