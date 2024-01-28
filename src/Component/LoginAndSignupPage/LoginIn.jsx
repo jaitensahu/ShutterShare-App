@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import mobileFrame from "../../assets/home-phones.png";
 import insta from "../../assets/WBLlWbPOKZ9.png";
 import style from "./LoginIn.module.css";
@@ -7,14 +7,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ContextStore, { Store } from "../Datastore/Context_SignUpAndLogin";
 import Dashboard from "../Dashboard/Dashboard";
 const Login = () => {
-  let {loginForm, loginPass,loginEmail,userObj} = useContext(Store);
+  let {loginForm, loginPass,loginEmail,currentUser,signinWithGoogle} = useContext(Store);
   let navigateTo = useNavigate();
-  let param = useParams();
-    console.log(param);
 
-
+// ----------- On Successful Login Navigating to DashBoard----------
+useEffect(()=>{
+  if( Object.keys(currentUser).length!=0){
+    navigateTo(`/shutterShare/dashboard`)
+  }
+},[currentUser])
+console.log(currentUser);
+// -----------------------------------------------------------
   return (
-    Object.keys(userObj).length==0?
       <div className={style.loginIn}>
         <div className={style.subContainer}>
           <div className={style.imageOnLeft}>
@@ -37,7 +41,7 @@ const Login = () => {
                 <div className={style.line}></div>
               </div>
 
-              <div className={style.LoginWithGoogle}>
+              <div className={style.LoginWithGoogle} onClick={signinWithGoogle}>
                 <FaGoogle />
                 <p>Log in with Google</p>
               </div>
@@ -65,7 +69,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-      </div> :<Dashboard />
+      </div>
   );
 };
 

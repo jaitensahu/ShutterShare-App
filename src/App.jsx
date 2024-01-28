@@ -1,12 +1,16 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
-// import LoginIn from "./Component/LoginAndSignupPage/LoginIn";
 import SignUp from "./Component/LoginAndSignupPage/SignUp";
 import Login from "./Component/LoginAndSignupPage/LoginIn";
 import ContextStore from "./Component/Datastore/Context_SignUpAndLogin";
-import Home from "./Component/LoginAndSignupPage/Home";
 import Dashboard from "./Component/Dashboard/Dashboard";
+import Layout from "./Component/Layout/Layout";
+import Explore from "./Component/Dashboard/DashBoard-SubComponents/Explore";
+import Reels from "./Component/Dashboard/DashBoard-SubComponents/Reels";
+import Inbox from "./Component/Dashboard/DashBoard-SubComponents/Inbox";
 function App() {
+
+  //------------------ Router Routes-------------------------
   let router = createBrowserRouter([
     {
       path: "/",
@@ -21,13 +25,31 @@ function App() {
       element: <Login />,
     },
     {
-      path:'/:shutterShare-Dashboard',
-      element:<Dashboard />
+      path:'/shutterShare/:userName',
+      element:<Layout />,
+      children:[
+        {
+          path:'/shutterShare/:userName',
+          element:<Dashboard />
+        },
+        {
+          path:'/shutterShare/:userName/Explore',
+          element:<Explore />
+        },
+        {
+          path:'/shutterShare/:userName/reels',
+          element:<Reels />
+        }
+      ]
     }
   ]);
+
+
   return (
     <>
-     <ContextStore>
+    {/*--------- Providing Context to Routes------------- */}
+    
+     <ContextStore>  
       <RouterProvider router={router} />
     </ContextStore>
     </>

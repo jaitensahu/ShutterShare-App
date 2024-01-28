@@ -1,0 +1,40 @@
+.instaIcon>h1 {
+    font-family: "Leckerli One", cursive;
+    font-size: 28px;
+}
+
+/* .leftSidebar h3{
+    font-size: 20px;
+    font-weight: bold;
+} */
+.icons {
+    margin: 8px 0;
+}
+
+.Dashboard {
+    position: absolute;
+    left: 45%;
+}
+
+.leftSidebar{
+    transition: 0.2s ease-in;
+}
+
+.reelIcon{
+    width: 26px;
+    min-width: 26px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .leftSidebar, .SearchComponent {
+        background-color: #121212;
+    }
+    
+}
+@media (prefers-color-scheme: light) {
+    .leftSidebar, .SearchComponent {
+        background-color: #ffffff;
+    }
+}
+

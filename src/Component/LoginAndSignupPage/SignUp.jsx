@@ -1,17 +1,22 @@
-import React, { useContext } from "react";
-import style from "./SignUp.module.css";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
 import Dashboard from "../Dashboard/Dashboard";
+import style from "./SignUp.module.css";
 
 
 const SignUp = () => {
-
-  let { userObj,handleInputRef,signUpEmail, signUpName, signUpUserName, signUpPass, signinWithGoogle } = useContext(Store);
   let navigateTo=useNavigate();
- console.log(Object.keys(userObj).length);
+  let {handleInputRef,signUpEmail, signUpName, signUpUserName, signUpPass, signinWithGoogle, currentUser } = useContext(Store);
+
+  // -----------If User SignUp Navigating to DashBoard ------------------- 
+  useEffect(()=>{
+    if(Object.keys(currentUser).length>0){
+      navigateTo('/shutterShare/:Dashboard')
+    }
+  })
+// ---------------------------------------------------------
   return (
-    Object.keys(userObj).length==0 ?
     <div className={style.formContainer}>
       <div action="" className={style.signUpForm}>
         <h1>ShutterShare</h1>
@@ -35,7 +40,8 @@ const SignUp = () => {
             By signing up, you agree to our Terms , Privacy Policy and Cookies
             Policy .
           </p>
-          <button
+          <button 
+            
             onClick={(event) =>{
              event.preventDefault()
               let response=handleInputRef(
@@ -44,6 +50,7 @@ const SignUp = () => {
                 signUpUserName.current.value,
                 signUpPass.current.value
               );
+              //------------------ When user Successfully SignUp Function returns True and Navigate user to Login window-------------------------- 
              response? navigateTo('/login'):alert("Insteade of alret show some error message")
             }
             }
@@ -71,7 +78,7 @@ const SignUp = () => {
           />
         </div>
       </div>
-    </div>:<Dashboard />
+    </div>
   );
 };
 
