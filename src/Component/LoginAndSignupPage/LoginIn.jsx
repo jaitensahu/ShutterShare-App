@@ -13,7 +13,7 @@ const Login = () => {
 // ----------- On Successful Login Navigating to DashBoard----------
 useEffect(()=>{
   if( Object.keys(currentUser).length!=0){
-    navigateTo(`/shutterShare/dashboard`)
+    navigateTo(`/shutterShare/`)
   }
 },[currentUser])
 console.log(currentUser);

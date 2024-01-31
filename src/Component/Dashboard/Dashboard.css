@@ -3,38 +3,83 @@
     font-size: 28px;
 }
 
-/* .leftSidebar h3{
-    font-size: 20px;
-    font-weight: bold;
-} */
 .icons {
     margin: 8px 0;
 }
 
 .Dashboard {
-    position: absolute;
-    left: 45%;
+    left: 20%;
+    height: 300vh;
+    z-index: -2;
 }
 
-.leftSidebar{
+.leftSidebar {
     transition: 0.2s ease-in;
 }
 
-.reelIcon{
+.reelIcon {
     width: 26px;
     min-width: 26px;
 }
 
 
 @media (prefers-color-scheme: dark) {
-    .leftSidebar, .SearchComponent {
+
+    .leftSidebar,
+    .SearchComponent {
         background-color: #121212;
     }
-    
+
+    #popup-root .popup-content {
+        background-color: #3c3c3c !important;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        border: none;
+
+    }
+
+    .popup-arrow {
+        display: none;
+    }
+
 }
+
 @media (prefers-color-scheme: light) {
-    .leftSidebar, .SearchComponent {
+
+    .leftSidebar,
+    .SearchComponent {
         background-color: #ffffff;
     }
 }
 
+path {
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width:1200px) {
+    .leftSidebar {
+        width: 100px;
+    }
+}
+
+
+.popup-content {
+    background-color: rgb(41, 45, 62);
+    color: #fff;
+}
+
+.changephoto {
+    box-shadow: 0 0 1000px 1000px rgba(0, 0, 0, 0.47);
+}
+
+html[data-theme='light'] .popup-content {
+    background-color: #fff;
+    color: #000;
+    border: none;
+}
+
+.popup-arrow {
+    color: rgb(255, 255, 255);
+}

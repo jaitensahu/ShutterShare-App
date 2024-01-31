@@ -37,6 +37,7 @@ const ContextStore = ({ children }) => {
   let loginPass = useRef();
   let [currentUser, setUserObj] = useState({});
   let [userDataFromDatabase, setUserData] = useState();
+   const [isOpen, setIsOpen] = useState(false);
 
   /*--------------------- Get User Data Function----------------------------------*/
   function handleInputRef(email, name, userName, password) {
@@ -79,17 +80,20 @@ const ContextStore = ({ children }) => {
   /*---------------------------------------------------------------------------- */
   /*----------------------------Update Profile Data Function -------------------- */
   function updateUserProfile() {
+
     updateProfile(auth.currentUser, {
-      displayName: "Jane Q. User",
+      // displayName: "Jane Q. User",
       photoURL: "https://example.com/jane-q-user/profile.jpg",
     })
       .then(() => {
         // Profile updated!
         // ...
+        console.log("profile Updated");
       })
       .catch((error) => {
         // An error occurred
         // ...
+        console.log(error);
       });
   }
   /*-------------------------------------------------------------------------- */
@@ -112,6 +116,15 @@ const ContextStore = ({ children }) => {
     }
   }
   /*-------------------------------------------------------------------------- */
+
+  // ------------------------Update Data in DataBase--------------------------
+  const UpdateDataInDataBase = async (key, valueToBeChange) => {
+    const UpdatedData = doc(db, key, valueToBeChange);
+    console.log(db);
+    let abc = await updateDoc(UpdatedData, { capital: true });
+    console.log(abc);
+  }
+
   /* ---------------------- Function to add data to Firestore Database -------*/
   async function setUserDataToDataBase(email, name, userName, profileUrl = "") {
     const docData = {
@@ -140,7 +153,7 @@ const ContextStore = ({ children }) => {
         setUserDataToDataBase(
           user.email,
           user.displayName,
-          user.displayName.split(" ")[0],
+          user.email.split("@")[0],
           user.photoURL
         );
         getData(user.email);
@@ -203,6 +216,11 @@ const ContextStore = ({ children }) => {
         logout,
         getData,
         userDataFromDatabase,
+        isOpen,
+        setIsOpen,
+        updateUserProfile,
+        setUserDataToDataBase,
+        UpdateDataInDataBase,
       }}
     >
       {children}

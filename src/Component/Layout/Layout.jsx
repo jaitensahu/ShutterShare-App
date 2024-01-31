@@ -8,9 +8,10 @@ const Layout = () => {
   return (
     <div className="Dashboard flex justify-between">
       <LeftDashBoard />
-      <Outlet />
-      <RightDashBoard />
-      
+      <div className="grow-[1]">
+        <Outlet />
+      </div>{" "}
+      {/* <RightDashBoard /> */}
     </div>
   );
 };

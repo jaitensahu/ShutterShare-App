@@ -7,9 +7,13 @@ import Dashboard from "./Component/Dashboard/Dashboard";
 import Layout from "./Component/Layout/Layout";
 import Explore from "./Component/Dashboard/DashBoard-SubComponents/Explore";
 import Reels from "./Component/Dashboard/DashBoard-SubComponents/Reels";
-import Inbox from "./Component/Dashboard/DashBoard-SubComponents/Inbox";
-function App() {
+import ProfileLayout from "./Component/EditProfilePage/ProfileLayout";
+import Posts from "./Component/EditProfilePage/Posts"
+import ReelsOnProfile from "./Component/EditProfilePage/ReelsOnProfile";
+import Saved from './Component/EditProfilePage/Saved'
+import EditPopUp from "./Component/EditProfilePage/editPopUpWindow/editPopUp";
 
+function App() {
   //------------------ Router Routes-------------------------
   let router = createBrowserRouter([
     {
@@ -25,33 +29,54 @@ function App() {
       element: <Login />,
     },
     {
-      path:'/shutterShare/:userName',
-      element:<Layout />,
-      children:[
+      path: "/shutterShare",
+      element: <Layout />,
+      children: [
         {
-          path:'/shutterShare/:userName',
-          element:<Dashboard />
+          path: "/shutterShare",
+          element: <Dashboard />,
         },
         {
-          path:'/shutterShare/:userName/Explore',
-          element:<Explore />
+          path: "/shutterShare/Explore",
+          element: <Explore />,
         },
         {
-          path:'/shutterShare/:userName/reels',
-          element:<Reels />
-        }
-      ]
-    }
+          path: "/shutterShare/reels",
+          element: <Reels />,
+        },
+        {
+          path: "/shutterShare/:userName",
+          element: <ProfileLayout />,
+          children: [
+            {
+              path: "/shutterShare/:userName",
+              element: <Posts />,
+            },
+            {
+              path: "/shutterShare/:userName/reels",
+              element: <ReelsOnProfile />,
+            },
+            {
+              path: "/shutterShare/:userName/saved",
+              element: <Saved />,
+            },
+          ],
+        },
+        {
+          path: "/shutterShare/account/edit",
+          element: <EditPopUp />,
+        },
+      ],
+    },
   ]);
-
 
   return (
     <>
-    {/*--------- Providing Context to Routes------------- */}
-    
-     <ContextStore>  
-      <RouterProvider router={router} />
-    </ContextStore>
+      {/*--------- Providing Context to Routes------------- */}
+
+      <ContextStore>
+        <RouterProvider router={router} />
+      </ContextStore>
     </>
   );
 }
