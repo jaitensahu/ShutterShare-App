@@ -135,7 +135,7 @@ const Login = () => {
               <FaGoogle />
               <p className="cursor-pointer">Log in with Google</p>
             </div>
-            <p className={`${style.forgetPass} cursor-pointer`}>
+            <p className={`${style.forgetPass} cursor-pointer`} onClick={()=>navigateTo("/reset-password")}>
               Forgot password?
             </p>
             <p className="text-[14px] text-red-600">{showErrorMessage}</p>

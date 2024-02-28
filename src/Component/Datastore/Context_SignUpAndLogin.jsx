@@ -22,6 +22,7 @@ import {
   signOut,
   updateProfile,
   sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 // import { GoogleAuthProvider } from "firebase/auth";
 
@@ -271,6 +272,7 @@ const ContextStore = ({ children }) => {
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
   }
   /*------------------------------------------------------------------------- */
@@ -302,6 +304,23 @@ const ContextStore = ({ children }) => {
     });
   }
 
+  function sendPassVerificationLink(mail) {
+    const auth = getAuth();
+    console.log("sending link", loginEmail,mail, auth);
+
+    sendPasswordResetEmail(auth, mail)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+        console.log("Password reset email sent!");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
+
   return (
     <Store.Provider
       value={{
@@ -331,6 +350,7 @@ const ContextStore = ({ children }) => {
         showErrorMessage,
         setErrorMessage,
         isLoading,
+        sendPassVerificationLink,
         // setSignUpUserName,
         // handleInput,
       }}

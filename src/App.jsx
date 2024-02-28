@@ -12,6 +12,7 @@ import Posts from "./Component/EditProfilePage/Posts"
 import ReelsOnProfile from "./Component/EditProfilePage/ReelsOnProfile";
 import Saved from './Component/EditProfilePage/Saved'
 import EditPopUp from "./Component/EditProfilePage/editPopUpWindow/editPopUp";
+import ChangePassWord from "./Component/LoginAndSignupPage/ChangePassWord";
 
 function App() {
   //------------------ Router Routes-------------------------
@@ -27,6 +28,10 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/reset-password",
+      element: <ChangePassWord />
     },
     {
       path: "/shutterShare",
