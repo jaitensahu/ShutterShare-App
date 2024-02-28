@@ -13,7 +13,14 @@ import ContextStore, { Store } from "../Datastore/Context_SignUpAndLogin";
 import Dashboard from "../Dashboard/Dashboard";
 import { CCarousel, CCarouselItem, CImage } from "@coreui/react";
 import { MutatingDots } from "react-loader-spinner";
+import { ToastContainer, cssTransition } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "animate.css";
 const Login = () => {
+  const fadeIn = cssTransition({
+    enter: "animate__animated animate__fadeIn",
+    exit: "animate__animated animate__fadeOut",
+  });
   let {
     loginForm,
     loginPass,
@@ -23,6 +30,7 @@ const Login = () => {
     showErrorMessage,
     setErrorMessage,
     isLoading,
+    sendPassVerificationLink,
   } = useContext(Store);
   let navigateTo = useNavigate();
 
@@ -135,7 +143,10 @@ const Login = () => {
               <FaGoogle />
               <p className="cursor-pointer">Log in with Google</p>
             </div>
-            <p className={`${style.forgetPass} cursor-pointer`} onClick={()=>navigateTo("/reset-password")}>
+            <p
+              className={`${style.forgetPass} cursor-pointer`}
+              onClick={() => sendPassVerificationLink(loginEmail.current.value)}
+            >
               Forgot password?
             </p>
             <p className="text-[14px] text-red-600">{showErrorMessage}</p>
@@ -162,6 +173,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer transition={fadeIn} />
     </div>
   );
 };

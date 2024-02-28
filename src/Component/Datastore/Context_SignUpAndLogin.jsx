@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { createContext } from "react";
 import React from "react";
 import { getDatabase, ref, set, onValue } from "firebase/database";
+import { toast, ToastContainer } from "react-toastify";
 import {
   doc,
   getFirestore,
@@ -271,7 +272,8 @@ const ContextStore = ({ children }) => {
         setUserObj(response.user);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
+        setErrorMessageFunc(err.message.split(":")[1]);
         setIsLoading(false);
       });
   }
@@ -293,6 +295,9 @@ const ContextStore = ({ children }) => {
   function setErrorMessageFunc(error) {
     console.log(error);
     setErrorMessage(error);
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 3000);
   }
 
   function sendEmailVerificationLink() {
@@ -306,13 +311,15 @@ const ContextStore = ({ children }) => {
 
   function sendPassVerificationLink(mail) {
     const auth = getAuth();
-    console.log("sending link", loginEmail,mail, auth);
+    console.log("sending link", loginEmail, mail, auth);
 
     sendPasswordResetEmail(auth, mail)
       .then(() => {
         // Password reset email sent!
         // ..
         console.log("Password reset email sent!");
+        setErrorMessageFunc("Password reset email sent!");
+        // notify("Password reset email sent!");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -320,6 +327,12 @@ const ContextStore = ({ children }) => {
         // ..
       });
   }
+
+  const notify = (message) => {
+    toast(message, {
+      position: "bottom-center",
+    });
+  };
 
   return (
     <Store.Provider
