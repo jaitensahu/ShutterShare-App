@@ -11,7 +11,7 @@ import ProfileLayout from "./Component/EditProfilePage/ProfileLayout";
 import Posts from "./Component/EditProfilePage/Posts"
 import ReelsOnProfile from "./Component/EditProfilePage/ReelsOnProfile";
 import Saved from './Component/EditProfilePage/Saved'
-import EditPopUp from "./Component/EditProfilePage/editPopUpWindow/editPopUp";
+import EditPopUp from './Component/EditProfilePage/EditPopUpWindow/EditPopUp'
 import ChangePassWord from "./Component/LoginAndSignupPage/ChangePassWord";
 
 function App() {
