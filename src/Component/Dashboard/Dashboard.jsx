@@ -22,8 +22,12 @@ const Dashboard = () => {
   return (
     <div className="w-11/12 flex justify-end gap-40">
       <div className="Dashboard flex justify-between ">
-        <div className="post">
-          <h1>DaSshBoard</h1>
+        <div className="post flex flex-col gap-5">
+          {/* <h1>DaSshBoard</h1> */}
+          <PostComponent />
+          <PostComponent />
+          <PostComponent />
+          <PostComponent />
           <PostComponent />
         </div>
       </div>

@@ -4,24 +4,28 @@
     font-family: "Leckerli One", cursive;
     font-weight: lighter;
     font-size: 40px;
-    margin-bottom: 30px ;
+    margin-bottom: 30px;
 }
-.LoginForm{
+
+.LoginForm {
     width: 30%;
     font-family: "Roboto", sans-serif;
     text-align: center;
     min-width: 350px;
 }
 
-.loginIn{
+.loginIn {
     display: flex;
     height: 100vh;
     justify-content: center;
+    padding: 50px 0;
 }
-.loginIn img{
+
+.loginIn img {
     width: 75%;
 }
-.subContainer{
+
+.subContainer {
     max-width: 1200px;
     margin: auto;
     display: flex;
@@ -29,48 +33,57 @@
     align-items: center;
     /* height: 80%; */
 }
-.imageOnLeft{
+
+.imageOnLeft {
     display: flex;
-    justify-content: end;
-    width: 50%;
+    justify-content: flex-end;
+    /* width: 50%; */
 }
-.form{
+
+.form {
     border: 1px solid grey;
     display: flex;
     flex-direction: column;
     padding: 40px;
 }
-.googlePlay{
+
+.googlePlay {
     display: flex;
 }
-.googlePlay img{
+
+.googlePlay img {
     width: 130px;
     margin-top: 10px;
 }
-.DontHaveAcc{
+
+.DontHaveAcc {
     margin: 10px 0;
     padding: 20px;
     text-align: center;
     border: 1px solid grey;
 }
-.inputBox{
+
+.inputBox {
     display: flex;
     flex-direction: column;
 }
-.OR{
+
+.OR {
     display: flex;
     margin: 10px 0;
     justify-content: center;
     align-items: center;
 }
-.inputBox input{
+
+.inputBox input {
     margin: 10px 0;
     padding: 10px 5px;
     background-color: rgb(234, 234, 234);
     border: 1px solid rgb(91, 91, 91);
     border-radius: 3px;
 }
-.LoginForm button{
+
+.LoginForm button {
     background-color: #0095F6;
     border: none;
     padding: 10px;
@@ -79,35 +92,83 @@
     border-radius: 7px;
     margin: 10px 0;
 }
-.line{
+
+.line {
     width: 40%;
     background-color: rgb(182, 182, 182);
     height: 1px;
     margin: 0 5px;
 }
-.forgetPass{
+
+.forgetPass {
     margin: 15px 0;
 }
-.playStore{
+
+.playStore {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.LoginWithGoogle{
+
+.LoginWithGoogle {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.LoginWithGoogle>p{
+
+.LoginWithGoogle>p {
     font-size: 16px;
     font-weight: bold;
-color: #00158b;
-margin-left: 10px;
+    color: #00158b;
+    margin-left: 10px;
 }
 
-@media screen and (max-width:800px){
+.gZmPOF  {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    box-shadow: 0 0 1000px 500px #00000087;
+    background-color: #00000087;
+    border: none;
+    z-index: 10000;
+}
 
-    .imageOnLeft{
+@media screen and (max-width:800px) {
+
+    .imageOnLeft {
         display: none;
     }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--background-color-dark);
+        color: var(--font-color-dark);
+    }
+
+    .inputBox input {
+        color: var(--font-color-dark);
+        background-color: var(--background-color-dark);
+    }
+
+    .LoginWithGoogle>p {
+        color: #0095F6;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    /* body {
+            background-color: var(--background-color-light);
+            color: var(--font-color-light);
+        }
+    
+        .inputBox input {
+            color: var(--font-color-light);
+            background-color: var(--background-color-light);
+        } */
+
+    /* .LoginWithGoogle>p {
+            color: #0095F6;
+        } */
 }

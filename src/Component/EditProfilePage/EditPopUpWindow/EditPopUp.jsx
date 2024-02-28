@@ -26,11 +26,11 @@ const EditPopUp = () => {
 
       reader.onload = (e) => {
         const dataUrl = e.target.result;
-        console.log("Data URL:", dataUrl);
-        uploadString(storageRef, dataUrl, "data_url").then((snapshot) => {
-          console.log("Uploaded a data_url string!");
+        console.log("Data URL:", JSON.stringify(dataUrl));
+        uploadString(storageRef, 'images/'+dataUrl).then((snapshot) => {
+          console.log("Uploaded a data_url string!",snapshot);
         });
-        // UpdateDataInDataBase("profileUrl", dataUrl);
+        // UpdateDataInDataBase("profileUrl", JSON.stringify(dataUrl));
 
         // Now you can use 'dataUrl' as a link or store it in a database
       };
