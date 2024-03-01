@@ -1,11 +1,9 @@
-import { useCallback, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { createContext } from "react";
 import React from "react";
-import { getDatabase, ref, set, onValue } from "firebase/database";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import {
   doc,
-  getFirestore,
   setDoc,
   Timestamp,
   getDoc,
@@ -41,6 +39,7 @@ const ContextStore = ({ children }) => {
   let loginEmail = useRef();
   let loginPass = useRef();
   let [showErrorMessage, setErrorMessage] = useState("");
+
   // let [signUpUserName, setSignUpUserName] = useState("");
   let [currentUser, setUserObj] = useState({});
   let [userDataFromDatabase, setUserData] = useState();
@@ -142,7 +141,7 @@ const ContextStore = ({ children }) => {
     }
   }
   /*-------------------------------------------------------------------------------- */
-  /*------------------------------Debouncing for userName---------------------------------------*/
+  /*------------------------------Debouncing for userName and Email---------------------------------------*/
   function debounce(func, delay) {
     let timeoutId;
 
@@ -292,6 +291,7 @@ const ContextStore = ({ children }) => {
   }
   /*------------------------------------------------------------------------- */
 
+  // ----------------Set Error Message --------------------------------------
   function setErrorMessageFunc(error) {
     console.log(error);
     setErrorMessage(error);
@@ -299,7 +299,8 @@ const ContextStore = ({ children }) => {
       setErrorMessage("");
     }, 3000);
   }
-
+  // -----------------------------------------------------------------------------
+  /*-----------------------Send Email Verification Link ------------------------- */
   function sendEmailVerificationLink() {
     const auth = getAuth();
     sendEmailVerification(auth.currentUser).then(() => {
@@ -308,7 +309,7 @@ const ContextStore = ({ children }) => {
       console.log("Email verification sent");
     });
   }
-
+/*------------------------Send password change link to user's email--------------------- */
   function sendPassVerificationLink(mail) {
     const auth = getAuth();
     console.log("sending link", loginEmail, mail, auth);
@@ -327,6 +328,7 @@ const ContextStore = ({ children }) => {
         // ..
       });
   }
+/*----------------------------------------------------------------------------------- */
 
   const notify = (message) => {
     toast(message, {
@@ -364,8 +366,6 @@ const ContextStore = ({ children }) => {
         setErrorMessage,
         isLoading,
         sendPassVerificationLink,
-        // setSignUpUserName,
-        // handleInput,
       }}
     >
       {children}

@@ -8,11 +8,13 @@ import Layout from "./Component/Layout/Layout";
 import Explore from "./Component/Dashboard/DashBoard-SubComponents/Explore";
 import Reels from "./Component/Dashboard/DashBoard-SubComponents/Reels";
 import ProfileLayout from "./Component/EditProfilePage/ProfileLayout";
-import Posts from "./Component/EditProfilePage/Posts"
+import Posts from "./Component/EditProfilePage/Posts";
 import ReelsOnProfile from "./Component/EditProfilePage/ReelsOnProfile";
-import Saved from './Component/EditProfilePage/Saved'
-import EditPopUp from './Component/EditProfilePage/EditPopUpWindow/EditPopUp'
+import Saved from "./Component/EditProfilePage/Saved";
+import EditPopUp from "./Component/EditProfilePage/EditPopUpWindow/EditPopUp";
 import ChangePassWord from "./Component/LoginAndSignupPage/ChangePassWord";
+import ReduxStore from "./Component/Datastore/ReduxStore/ReduxStore";
+import { Provider } from "react-redux"; 
 
 function App() {
   //------------------ Router Routes-------------------------
@@ -31,7 +33,7 @@ function App() {
     },
     {
       path: "/reset-password",
-      element: <ChangePassWord />
+      element: <ChangePassWord />,
     },
     {
       path: "/shutterShare",
@@ -78,10 +80,11 @@ function App() {
   return (
     <>
       {/*--------- Providing Context to Routes------------- */}
-
-      <ContextStore>
-        <RouterProvider router={router} />
-      </ContextStore>
+      <Provider store={ReduxStore}>
+        <ContextStore>
+          <RouterProvider router={router} />
+        </ContextStore>
+      </Provider>
     </>
   );
 }

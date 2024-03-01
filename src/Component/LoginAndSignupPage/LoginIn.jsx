@@ -123,7 +123,12 @@ const Login = () => {
             <h1>ShutterShare</h1>
             <div className={style.inputBox}>
               <input type="text" placeholder="Email" ref={loginEmail} />
-              <input type="password" placeholder="Password" ref={loginPass} />
+              <input
+                type="password"
+                placeholder="Password"
+                autoComplete="true"
+                ref={loginPass}
+              />
               <button
                 onClick={(e) => {
                   e.preventDefault();

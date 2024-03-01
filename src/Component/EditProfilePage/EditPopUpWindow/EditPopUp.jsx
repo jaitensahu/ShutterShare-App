@@ -1,22 +1,46 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Store } from "../../Datastore/Context_SignUpAndLogin";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { getStorage, ref, uploadString } from "firebase/storage";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
+import { getApp } from "firebase/app";
 
 const EditPopUp = () => {
+  let { value } = useSelector((state) => state.EditProfileSlice);
+  let dispatch = useDispatch();
   let { userDataFromDatabase, UpdateDataInDataBase } = useContext(Store);
+
+  let storageRef;
+  let imagesRef;
+  useEffect(() => {
+    const initializeFirebase = async () => {
+      const firebaseApp = getApp();
+      const storage = getStorage(
+        firebaseApp,
+        "https://console.firebase.google.com/u/0/project/instagram-clone810/storage/instagram-clone810.appspot.com/files"
+      );
+
+      storageRef = ref(storage);
+      imagesRef = ref(storage, "images");
+      console.log(storageRef, imagesRef);
+      const mountainsRef = ref(storage, "mountains.jpg");
+
+      // Create a reference to 'images/mountains.jpg'
+
+      const mountainImagesRef = ref(storage, "images/mountains.jpg");
+    };
+
+    initializeFirebase();
+  }, []);
+
   const [anchor] = React.useState(null);
   const open = Boolean(anchor);
   const id = open ? "simple-popper" : undefined;
-  const [image, setImage] = useState()
-  const storage = getStorage();
-  const storageRef = ref(storage, "some-child");
 
-  console.log(userDataFromDatabase);
-  // const fileReader = new FileReader();
+  // console.log(userDataFromDatabase);
 
+  // Will get imagee from user and cover it to link
   const getImage = (event) => {
     console.log(event.target.files[0]);
     const file = event.target.files[0];
@@ -24,13 +48,13 @@ const EditPopUp = () => {
     if (file) {
       const reader = new FileReader();
 
-      reader.onload = (e) => {
+      reader.onloadend = (e) => {
         const dataUrl = e.target.result;
         console.log("Data URL:", JSON.stringify(dataUrl));
-        uploadString(storageRef, 'images/'+dataUrl).then((snapshot) => {
-          console.log("Uploaded a data_url string!",snapshot);
+        uploadString(imagesRef, "images/" + dataUrl).then((snapshot) => {
+          console.log("Uploaded a data_url string!", snapshot);
         });
-        UpdateDataInDataBase("profileUrl", JSON.stringify(dataUrl));
+        // UpdateDataInDataBase("profileUrl", JSON.stringify(dataUrl));
 
         // Now you can use 'dataUrl' as a link or store it in a database
       };
@@ -42,7 +66,7 @@ const EditPopUp = () => {
     UpdateDataInDataBase("profileUrl", imageUrl);
   };
 
-  // Change Profile Image PopUp Component 
+  // Change Profile Imagee PopUp Component
   const ChangePhotoPopUp = () => (
     <Popup
       trigger={
@@ -60,8 +84,9 @@ const EditPopUp = () => {
       {(close) => (
         <div className="changephoto min-w-[380px] py-5 w-1/3 fixed top-1/2 flex flex-col items-center gap-2 p-4 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-inherit text-center ">
           <h1 className="text-2xl ">Change Profile Photo</h1>
-         <input type="file" id="img" className= "hidden" onChange={getImage} />
-          <label htmlFor="img"
+          <input type="file" id="img" className="hidden" onChange={getImage} />
+          <label
+            htmlFor="img"
             className="font-bold text-blue-500 cursor-pointer"
             // onClick={handleChange}
           >
@@ -78,7 +103,6 @@ const EditPopUp = () => {
     </Popup>
   );
 
-  // Code To Convert Image to URL 
   let fileUpload = (event) => {
     // console.log("in");
     let src = event.target.value.getAsDataURL();
@@ -86,15 +110,10 @@ const EditPopUp = () => {
       image: src,
     });
   };
-   const [file, setFile] = useState();
-  function handleChange(e) {
-    console.log(e.target.files);
-    // setFile(URL.createObjectURL(e.target.files[0]));
-  }
 
   return (
     <div className="w-full ">
-      <img src={ image} alt="" />
+      {/* <img src={image} alt="" /> */}
       <div className="w-1/2 m-auto p-7 flex flex-col gap-8 min-w-[512px]">
         <h1 className="w-full font-bold text-xl">Edit profile</h1>
         <div className="flex mt-4 justify-between items-center bg-zinc-800 p-4 rounded-2xl">
@@ -112,7 +131,7 @@ const EditPopUp = () => {
             </div>
           </div>
           <div>
-            <ChangePhotoPopUp className="fixed"/>
+            <ChangePhotoPopUp className="fixed" />
           </div>
         </div>
         <div>
