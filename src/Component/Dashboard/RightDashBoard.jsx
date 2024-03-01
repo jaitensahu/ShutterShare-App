@@ -6,9 +6,9 @@ const RightDashBoard = () => {
 
   return (
     <>
-      <div className="rightSideBar w-[20%] py-12  h-screen">
+      <div className="rightSideBar w-[100%] py-[30px]  h-screen">
         <div className="w-full ">
-          <div className="profile flex justify-between  items-center">
+          <div className="profile flex justify-between gap-[10px] items-center">
             <div className="profileImgAndName flex gap-2">
               <img
                 src={

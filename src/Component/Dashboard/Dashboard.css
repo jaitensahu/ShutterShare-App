@@ -10,13 +10,17 @@
 .Dashboard {
     left: 20%;
     height: 300vh;
-    z-index: -2;
+    /* z-index: -2; */
 }
 
-.leftSidebar {
+.leftSidebar,
+.rightsideContainer {
     transition: 0.2s ease-in;
 }
 
+/* .leftMiddle{
+
+} */
 .reelIcon {
     width: 26px;
     min-width: 26px;
@@ -58,10 +62,30 @@ path {
     width: 100%;
 }
 
-@media screen and (max-width:1200px) {
-    .leftSidebar {
-        width: 100px;
+@media screen and (max-width:1110px) {
+    .rightsideContainer {
+        width: 90% !important;
     }
+}
+
+@media screen and (max-width:1024px) {
+    .rightSideBar {
+        width: 30% !important;
+        min-width: 210px;
+        margin-right: 50px !important;
+    }
+
+    .Dashboard {
+        flex-grow: 1;
+        min-width: 480px
+    }
+
+    .dashboardContainer {
+        width: 100% !important;
+    }
+
+
+
 }
 
 
@@ -82,4 +106,24 @@ html[data-theme='light'] .popup-content {
 
 .popup-arrow {
     color: rgb(255, 255, 255);
+}
+
+@media screen and (max-width:830px) {
+    .Dashboard {
+        justify-content: start !important;
+        width: 100%;
+        padding: 0 50px !important;
+    }
+
+    .rightContainer {
+        display: none;
+    }
+
+    .rightsideContainer {
+        width: 100% !important;
+    }
+}
+
+.stories::-webkit-scrollbar {
+    width: 0px;
 }

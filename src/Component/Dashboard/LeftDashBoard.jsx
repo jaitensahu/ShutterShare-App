@@ -78,14 +78,14 @@ const LeftDashBoard = () => {
         <SearchComponent />
       </Drawer>
       <div
-        className={`leftSidebar  px-5 py-9 h-screen flex flex-col justify-between fixed left-0  ${
+        className={`leftSidebar py-9 h-screen flex flex-col justify-between items-center fixed left-0  ${
           isOpen ? "border-none" : "border-r-2"
         } border-zinc-800 ${isOpen ? "w-20" : "w-1/6"} max-[1110px]:w-20 `}
       >
         <IconContext.Provider
           value={{ size: "1.3em", className: "react-icons" }}
         >
-          <div className={`leftMiddle w-full flex flex-col items-center`}>
+          <div className={`leftMiddle w-[70%] flex flex-col items-center`}>
             <div className="  instaIcon max-[1110px]:hidden">
               {isOpen ? (
                 <FaInstagram
@@ -222,7 +222,6 @@ const LeftDashBoard = () => {
             </div>
 
             <div
-             
               className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800      `}
             >
               <PostAndLivePopup />
@@ -253,9 +252,9 @@ const LeftDashBoard = () => {
             </NavLink>
           </div>
 
-          <div className="leftBottom">
+          <div className="leftBottom w-[70%]">
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  `}
+              className={`icons p-2 flex gap-3  justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  `}
             >
               <div>
                 <FaThreads style={{ fontSize: "18px" }} />

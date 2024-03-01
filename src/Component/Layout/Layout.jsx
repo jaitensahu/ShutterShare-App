@@ -1,17 +1,14 @@
 import React from "react";
-import Dashboard from "../Dashboard/Dashboard";
 import LeftDashBoard from "../Dashboard/LeftDashBoard";
-import RightDashBoard from "../Dashboard/RightDashBoard";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div className="Dashboard flex justify-between">
+    <div className="">
       <LeftDashBoard />
-      <div className="grow-[1]">
+      <div className="rightsideContainer ml-[7%] w-5/6  min-[1110px]:ml-[17%]  ">
         <Outlet />
       </div>{" "}
-      {/* <RightDashBoard /> */}
     </div>
   );
 };

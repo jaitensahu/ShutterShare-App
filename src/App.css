@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 :local {
     --background-color-dark: #191818;
     --font-color-dark: white;

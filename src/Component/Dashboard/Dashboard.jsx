@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import "./Dashboard.css";
 import RightDashBoard from "./RightDashBoard";
 import PostComponent from "../PostComponent/PostComponent";
+import InstaStories from "../InstaStories/InstaStories";
 
 const Dashboard = () => {
   let { currentUser } = useContext(Store);
@@ -20,9 +21,12 @@ const Dashboard = () => {
   // ----------------------------------------------------------
 
   return (
-    <div className="w-11/12 flex justify-end gap-40">
-      <div className="Dashboard flex justify-between ">
-        <div className="post flex flex-col gap-5">
+    <div className="w-[100%] flex gap-[50px] justify-around dashboardContainer pr-[5%]">
+      <div className="Dashboard flex flex-col w-[60%]  ml-[3%]">
+        <div>
+          <InstaStories />
+        </div>
+        <div className="post flex flex-col gap-5 w-[80%] max-w-[500px] mx-auto">
           {/* <h1>DaSshBoard</h1> */}
           <PostComponent />
           <PostComponent />
@@ -31,7 +35,9 @@ const Dashboard = () => {
           <PostComponent />
         </div>
       </div>
-      <RightDashBoard />
+      <div className="rightContainer w-[30%] min-w-[200px] max-w-[250px]">
+        <RightDashBoard />
+      </div>
     </div>
   );
 };

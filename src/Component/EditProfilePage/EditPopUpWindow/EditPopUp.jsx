@@ -21,26 +21,26 @@ const EditPopUp = () => {
     console.log(event.target.files[0]);
     const file = event.target.files[0];
 
-    // if (file) {
-      // const reader = new FileReader();
+    if (file) {
+      const reader = new FileReader();
 
-      // reader.onload = (e) => {
-      //   const dataUrl = e.target.result;
-      //   console.log("Data URL:", JSON.stringify(dataUrl));
-      //   uploadString(storageRef, 'images/'+dataUrl).then((snapshot) => {
-      //     console.log("Uploaded a data_url string!",snapshot);
-      //   });
-        // UpdateDataInDataBase("profileUrl", JSON.stringify(dataUrl));
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        console.log("Data URL:", JSON.stringify(dataUrl));
+        uploadString(storageRef, 'images/'+dataUrl).then((snapshot) => {
+          console.log("Uploaded a data_url string!",snapshot);
+        });
+        UpdateDataInDataBase("profileUrl", JSON.stringify(dataUrl));
 
         // Now you can use 'dataUrl' as a link or store it in a database
-      // };
+      };
 
       // Read the file as a data URL
-      // reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
     }
-    // console.log(imageUrl);
-    // UpdateDataInDataBase("profileUrl", imageUrl);
-  // };
+    console.log(imageUrl);
+    UpdateDataInDataBase("profileUrl", imageUrl);
+  };
 
   // Change Profile Image PopUp Component 
   const ChangePhotoPopUp = () => (
