@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import SignUp from "./Component/LoginAndSignupPage/SignUp";
 import Login from "./Component/LoginAndSignupPage/LoginIn";
-import ContextStore from "./Component/Datastore/Context_SignUpAndLogin";
+import ContextStore, { Store } from "./Component/Datastore/Context_SignUpAndLogin";
 import Dashboard from "./Component/Dashboard/Dashboard";
 import Layout from "./Component/Layout/Layout";
 import Explore from "./Component/Dashboard/DashBoard-SubComponents/Explore";
@@ -15,8 +15,11 @@ import EditPopUp from "./Component/EditProfilePage/EditPopUpWindow/EditPopUp";
 import ChangePassWord from "./Component/LoginAndSignupPage/ChangePassWord";
 import ReduxStore from "./Component/Datastore/ReduxStore/ReduxStore";
 import { Provider } from "react-redux"; 
+import { MutatingDots } from "react-loader-spinner";
+import { useContext } from "react";
 
 function App() {
+ 
   //------------------ Router Routes-------------------------
   let router = createBrowserRouter([
     {
@@ -80,11 +83,13 @@ function App() {
   return (
     <>
       {/*--------- Providing Context to Routes------------- */}
-      <Provider store={ReduxStore}>
+      <div>
         <ContextStore>
-          <RouterProvider router={router} />
+          <Provider store={ReduxStore}>
+            <RouterProvider router={router} />
+          </Provider>
         </ContextStore>
-      </Provider>
+      </div>
     </>
   );
 }

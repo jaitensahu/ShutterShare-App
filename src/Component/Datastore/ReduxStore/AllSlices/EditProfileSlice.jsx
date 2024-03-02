@@ -1,16 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ref } from "firebase/database";
+import { getDownloadURL, uploadBytes } from "firebase/storage";
 const initialState = {
-  value: 0,
+  imgUrl: "",
+  currentUserProfileImage: "",
 };
 export const EditProfileSlice = createSlice({
   name: "EditProfileSlice",
   initialState,
   reducers: {
-    increament: (action, payload) => {
-      console.log(action, payload);
+    setUrl: (state, action) => {
+      state.imgUrl = action.payload;
+    },
+    setProfileImage: (state, action) => {
+      //   console.log(action.payload);
+      state.currentUserProfileImage = action.payload;
     },
   },
 });
 
-export const { increament } = EditProfileSlice.actions;
+export const { setUrl, setProfileImage } = EditProfileSlice.actions;
 export default EditProfileSlice.reducer;

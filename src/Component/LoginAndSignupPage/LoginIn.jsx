@@ -54,7 +54,7 @@ const Login = () => {
   // -----------------------------------------------------------
   return (
     <div className={style.loginIn}>
-      {isLoading ? (
+      {/* {isLoading ? (
         <MutatingDots
           visible={true}
           height="100"
@@ -64,7 +64,7 @@ const Login = () => {
           radius="12.5"
           ariaLabel="mutating-dots-loading"
           wrapperStyle={{
-            position: "absolute",
+            position: "fixed",
             top: "50%",
             left: "50%",
             zIndex: "10000",
@@ -76,7 +76,7 @@ const Login = () => {
           // wrapperClass="loder"
           // className={style.loder}
         />
-      ) : null}
+      ) : null} */}
       <div className={style.subContainer}>
         <div className={`${style.imageOnLeft} relative w-[50%]`}>
           <img src={mobileFrame} alt="" />

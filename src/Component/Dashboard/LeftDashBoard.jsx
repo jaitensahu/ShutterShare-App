@@ -15,8 +15,11 @@ import "react-modern-drawer/dist/index.css";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./Dashboard.css";
+import { useSelector } from "react-redux";
 
 const LeftDashBoard = () => {
+  let { currentUserProfileImage } = useSelector(
+    (state) => state.EditProfileSlice);
   // Getting Data From Store
   let { logout, getData, isOpen, setIsOpen, userDataFromDatabase } =
     useContext(Store);
@@ -237,7 +240,7 @@ const LeftDashBoard = () => {
             >
               <img
                 src={
-                  auth.currentUser != null ? auth.currentUser.photoURL : null
+                  currentUserProfileImage != "" ? currentUserProfileImage : null
                 }
                 alt=""
                 className="rounded-full w-8"

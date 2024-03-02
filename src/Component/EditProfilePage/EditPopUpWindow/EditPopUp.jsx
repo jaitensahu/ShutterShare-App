@@ -1,69 +1,46 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Store } from "../../Datastore/Context_SignUpAndLogin";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
-import { getApp } from "firebase/app";
+import { auth, storage } from "../../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { nanoid } from "@reduxjs/toolkit";
+import {
+  setProfileImage,
+  setUrl,
+} from "../../Datastore/ReduxStore/AllSlices/EditProfileSlice";
 
 const EditPopUp = () => {
-  let { value } = useSelector((state) => state.EditProfileSlice);
+  let { imgUrl } = useSelector((state) => state.EditProfileSlice);
   let dispatch = useDispatch();
-  let { userDataFromDatabase, UpdateDataInDataBase } = useContext(Store);
-
-  let storageRef;
-  let imagesRef;
-  useEffect(() => {
-    const initializeFirebase = async () => {
-      const firebaseApp = getApp();
-      const storage = getStorage(
-        firebaseApp,
-        "https://console.firebase.google.com/u/0/project/instagram-clone810/storage/instagram-clone810.appspot.com/files"
-      );
-
-      storageRef = ref(storage);
-      imagesRef = ref(storage, "images");
-      console.log(storageRef, imagesRef);
-      const mountainsRef = ref(storage, "mountains.jpg");
-
-      // Create a reference to 'images/mountains.jpg'
-
-      const mountainImagesRef = ref(storage, "images/mountains.jpg");
-    };
-
-    initializeFirebase();
-  }, []);
+  let { userDataFromDatabase, UpdateDataInDataBase, setIsLoading, notify } =
+    useContext(Store);
 
   const [anchor] = React.useState(null);
   const open = Boolean(anchor);
   const id = open ? "simple-popper" : undefined;
+  let file;
+  let description = useRef();
+  let gender = useRef();
 
-  // console.log(userDataFromDatabase);
-
-  // Will get imagee from user and cover it to link
-  const getImage = (event) => {
-    console.log(event.target.files[0]);
-    const file = event.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = (e) => {
-        const dataUrl = e.target.result;
-        console.log("Data URL:", JSON.stringify(dataUrl));
-        uploadString(imagesRef, "images/" + dataUrl).then((snapshot) => {
-          console.log("Uploaded a data_url string!", snapshot);
-        });
-        // UpdateDataInDataBase("profileUrl", JSON.stringify(dataUrl));
-
-        // Now you can use 'dataUrl' as a link or store it in a database
-      };
-
-      // Read the file as a data URL
-      reader.readAsDataURL(file);
-    }
-    console.log(imageUrl);
-    UpdateDataInDataBase("profileUrl", imageUrl);
+  // Function to uplaod image to db and get url
+  const getImage = () => {
+    if (file == "") return;
+    let imagesRef = ref(storage, `images/${file.name + nanoid()}`);
+    setIsLoading(true);
+    uploadBytes(imagesRef, file)
+      .then((snapshot) => {
+        console.log("uploaded successfully");
+        return getDownloadURL(snapshot.ref);
+      })
+      .then((url) => {
+        dispatch(setUrl(url));
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
   };
 
   // Change Profile Imagee PopUp Component
@@ -84,11 +61,18 @@ const EditPopUp = () => {
       {(close) => (
         <div className="changephoto min-w-[380px] py-5 w-1/3 fixed top-1/2 flex flex-col items-center gap-2 p-4 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-inherit text-center ">
           <h1 className="text-2xl ">Change Profile Photo</h1>
-          <input type="file" id="img" className="hidden" onChange={getImage} />
+          <input
+            type="file"
+            id="img"
+            className="hidden"
+            onChange={(e) => {
+              file = e.target.files[0];
+              getImage();
+            }}
+          />
           <label
             htmlFor="img"
             className="font-bold text-blue-500 cursor-pointer"
-            // onClick={handleChange}
           >
             Upload Photo
           </label>
@@ -118,11 +102,7 @@ const EditPopUp = () => {
         <h1 className="w-full font-bold text-xl">Edit profile</h1>
         <div className="flex mt-4 justify-between items-center bg-zinc-800 p-4 rounded-2xl">
           <div className="flex items-center gap-3">
-            <img
-              src={userDataFromDatabase.profileUrl}
-              alt=""
-              className="rounded-full w-16"
-            />
+            <img src={imgUrl} alt="" className="rounded-full w-16" />
             <div>
               <h3 className="font-bold text-lg">
                 {userDataFromDatabase.userName}
@@ -141,18 +121,31 @@ const EditPopUp = () => {
             placeholder="Bio"
             className="p-2 w-full rounded-lg"
             id=""
+            ref={description}
           ></textarea>
         </div>
 
         <div>
-          <select name="" id="" className="w-full p-2 rounded-lg">
-            <option value="">Male</option>
-            <option value="">Female</option>
+          <select name="" id="" className="w-full p-2 rounded-lg" ref={gender}>
+            <option value="">select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
             <option value="">Prefer not to say</option>
           </select>
         </div>
 
-        <button className="py-2 px-28 bg-blue-600 rounded-lg w-1/2 m-auto">
+        <button
+          className="py-2 px-28 bg-blue-600 rounded-lg w-1/2 m-auto"
+          onClick={() => {
+            UpdateDataInDataBase(auth.currentUser.email,{
+              profielUrl: imgUrl,
+              description: description.current.value,
+              gender: gender.current.value,
+            });
+            dispatch(setProfileImage(imgUrl));
+            
+          }}
+        >
           Submit
         </button>
       </div>

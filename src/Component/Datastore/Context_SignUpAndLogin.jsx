@@ -1,7 +1,7 @@
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { createContext } from "react";
 import React from "react";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import {
   doc,
   setDoc,
@@ -9,8 +9,9 @@ import {
   getDoc,
   getDocs,
   collection,
+  updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase";
+// import { db } from "../firebase";
 
 import {
   getAuth,
@@ -23,6 +24,8 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
+import { MutatingDots } from "react-loader-spinner";
+import { db } from "../firebase";
 // import { GoogleAuthProvider } from "firebase/auth";
 
 export const Store = createContext({});
@@ -96,7 +99,7 @@ const ContextStore = ({ children }) => {
         signUpName.current.value = "";
         signUpUserName.current.value = "";
         signUpPass.current.value = "";
-        sendEmailVerificationLink();
+        // sendEmailVerificationLink();
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -191,7 +194,7 @@ const ContextStore = ({ children }) => {
       } else {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
-        return {};
+        return null;
       }
     } catch (error) {
       console.log("got error", error);
@@ -200,11 +203,19 @@ const ContextStore = ({ children }) => {
   /*-------------------------------------------------------------------------- */
 
   // ------------------------Update Data in DataBase--------------------------
-  const UpdateDataInDataBase = async (key, valueToBeChange) => {
-    const UpdatedData = doc(db, key, valueToBeChange);
-    // console.log(db);
-    let abc = await updateDoc(UpdatedData, { capital: true });
-    // console.log(abc);
+  const UpdateDataInDataBase = async (email,updates) => {
+
+    console.log("updating...", updates);
+    try {
+      const UpdatedData = doc(db, "users", email);
+      console.log(UpdatedData);
+      let abc = await updateDoc(UpdatedData, {"userProfileInfo": updates });
+      console.log("data updated", abc);
+    } catch (error) {
+      console.log("error", error);
+    }
+
+
   };
 
   /* ---------------------- Function to add data to Firestore Database -------*/
@@ -216,6 +227,7 @@ const ContextStore = ({ children }) => {
       dateExample: Timestamp.fromDate(new Date()),
       profileUrl,
     };
+
     try {
       await setDoc(doc(db, `users/${email}`), docData);
     } catch (error) {
@@ -225,20 +237,28 @@ const ContextStore = ({ children }) => {
   /*--------------------------------------------------------------------------- */
   /*-----------------------   Log in with Google ----------------------------*/
   function signinWithGoogle() {
+    console.log("sign in with google");
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-        setUserDataToDataBase(
-          user.email,
-          user.displayName,
-          user.email.split("@")[0],
-          user.photoURL
-        );
-        getData(user.email);
+        let d = await getData(user.email);
+        // console.log(d);
+        // let userExit = await getData(user.email);
+        // console.log(userExit);
+        if (d == null) {
+          console.log("setting");
+          setUserDataToDataBase(
+            user.email,
+            user.displayName,
+            user.email.split("@")[0],
+            user.photoURL
+          );
+        }
+
         setUserObj(user);
         // Need to add a condition if the User data is already present in the Database then user should Login and Navigate to the Dashboard
       })
@@ -246,9 +266,9 @@ const ContextStore = ({ children }) => {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-
+        console.log("error", errorMessage);
         // The email of the user's account used.
-        const email = error.customData.email;
+        // const email = error.customData.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // console.log(email, errorMessage);
@@ -262,13 +282,14 @@ const ContextStore = ({ children }) => {
     getData(email);
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
-        if (!response.user.emailVerified) {
-          console.log("Please Verify your email address..!!!");
-          setErrorMessage("Please verify your email address..!!!");
-          return;
-        }
+        // if (!response.user.emailVerified) {
+        //   console.log("Please Verify your email address..!!!");
+        //   setErrorMessage("Please verify your email address..!!!");
+        //   return;
+        // }
         setIsLoading(false);
         setUserObj(response.user);
+        console.log("user Loged in");
       })
       .catch((err) => {
         console.log(err.message);
@@ -309,7 +330,7 @@ const ContextStore = ({ children }) => {
       console.log("Email verification sent");
     });
   }
-/*------------------------Send password change link to user's email--------------------- */
+  /*------------------------Send password change link to user's email--------------------- */
   function sendPassVerificationLink(mail) {
     const auth = getAuth();
     console.log("sending link", loginEmail, mail, auth);
@@ -328,7 +349,7 @@ const ContextStore = ({ children }) => {
         // ..
       });
   }
-/*----------------------------------------------------------------------------------- */
+  /*----------------------------------------------------------------------------------- */
 
   const notify = (message) => {
     toast(message, {
@@ -336,6 +357,7 @@ const ContextStore = ({ children }) => {
     });
   };
 
+  console.log(isLoading);
   return (
     <Store.Provider
       value={{
@@ -366,8 +388,35 @@ const ContextStore = ({ children }) => {
         setErrorMessage,
         isLoading,
         sendPassVerificationLink,
+        setIsLoading,
+        notify,
       }}
     >
+      <div>
+        {isLoading ? (
+          <MutatingDots
+            visible={true}
+            height="100"
+            width="100"
+            color="#4fa94d"
+            secondaryColor="#4fa94d"
+            radius="12.5"
+            ariaLabel="mutating-dots-loading"
+            wrapperStyle={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              zIndex: "10000",
+              transform: "translate(-50%, -50%)",
+              boxShadow: "0 0 1000px 500px #00000087",
+              backgroundColor: "#00000087",
+              border: "none",
+            }}
+            // wrapperClass="loder"
+            // className={style.loder}
+          />
+        ) : null}
+      </div>
       {children}
     </Store.Provider>
   );

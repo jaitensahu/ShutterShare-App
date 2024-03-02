@@ -29,3 +29,4 @@ export const auth = getAuth(app);
 export default app;
 export const database = getDatabase(app);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
