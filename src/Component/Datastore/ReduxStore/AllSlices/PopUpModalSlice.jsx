@@ -7,6 +7,8 @@ const initialState = {
   openDiscardModal: false,
   openPicker: false,
   postDescription: "",
+  showPostModal: false,
+  showPost:null,
 };
 
 export const PopUpModalSlice = createSlice({
@@ -31,6 +33,12 @@ export const PopUpModalSlice = createSlice({
     setDescription: (state, action) => {
       state.postDescription = action.payload;
     },
+    setShowPostModal: (state, action) => {
+      state.showPostModal = action.payload;
+    },
+    setShowPost: (state, action) => {
+      state.showPost = action.payload;
+    },
   },
 });
 
@@ -41,6 +49,8 @@ export const {
   setDiscardModal,
   setEmojiPicker,
   setDescription,
+  setShowPostModal,
+  setShowPost,
 } = PopUpModalSlice.actions;
 
 export default PopUpModalSlice.reducer;

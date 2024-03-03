@@ -2,7 +2,19 @@
     padding: 25px !important;
     padding-bottom: 10px !important;
     border: none !important;
+    z-index: 10000;
 }
+
+.postModalHeader {
+    padding: 0 !important;
+    background-color: transparent !important;
+}
+
+.postModalHeader:hover button {
+    color: white;
+}
+
+
 
 .Modal {
     z-index: 200000;
@@ -24,6 +36,7 @@
 .modalHeader button {
     /* background-color: aqua !important; */
     margin-left: 0;
+
 }
 
 .modalBody {
@@ -59,4 +72,17 @@
 
 .epr_-lzq3oa {
     display: none !important;
+}
+
+.captionArea::-webkit-scrollbar {
+    width: 0px;
+}
+
+.postModalBody {
+    padding: 0 !important;
+}
+
+.postModalBody::-webkit-scrollbar,
+.desc_comments::-webkit-scrollbar {
+    width: 20px;
 }

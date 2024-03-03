@@ -188,6 +188,7 @@ const ContextStore = ({ children }) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setUserData(docSnap.data());
+        // console.log(docSnap.data());
         return docSnap.data();
       } else {
         // docSnap.data() will be undefined in this case
@@ -201,17 +202,14 @@ const ContextStore = ({ children }) => {
   /*-------------------------------------------------------------------------- */
 
   // ------------------------Update Data in DataBase--------------------------
-  const UpdateDataInDataBase = async (email,updates) => {
-
+  const UpdateDataInDataBase = async (email, updates) => {
     try {
       const UpdatedData = doc(db, "users", email);
       console.log(UpdatedData);
-      let abc = await updateDoc(UpdatedData, {"userProfileInfo": updates });
+      let abc = await updateDoc(UpdatedData, { userProfileInfo: updates });
     } catch (error) {
       console.log("error", error);
     }
-
-
   };
 
   /* ---------------------- Function to add data to Firestore Database -------*/
@@ -220,7 +218,7 @@ const ContextStore = ({ children }) => {
       name,
       email,
       userName,
-      dateExample: Timestamp.fromDate(new Date()),
+      userCreated: Timestamp.fromDate(new Date()),
       profileUrl,
     };
 

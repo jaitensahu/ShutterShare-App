@@ -1,9 +1,10 @@
 import { createAsyncThunk, nanoid } from "@reduxjs/toolkit";
 import { ref } from "firebase/storage";
-import { storage } from "../../../firebase";
+import { db, storage } from "../../../firebase";
 import { getDownloadURL, uploadBytes } from "firebase/storage";
-import { setUrl } from "./UploadeImgToDBSlice";
+import { setPostObject, setUrl } from "./UploadeImgToDBSlice";
 import { onLog } from "firebase/app";
+import { doc, updateDoc } from "firebase/firestore";
 
 export const UploadImgGetUrl = createAsyncThunk(
   "UploadToDBSlice/Uploading",
@@ -31,3 +32,15 @@ export const UploadImgGetUrl = createAsyncThunk(
     }
   }
 );
+
+export const UpdateDataInDataBase = async (email, post) => {
+  //  console.log("data for DB:",email, post);
+  try {
+    const UpdatedData = doc(db, "users", email);
+    // console.log(UpdatedData);
+    let abc = await updateDoc(UpdatedData, {posts: post });
+    console.log("inserted");
+  } catch (error) {
+    console.log("error", error);
+  }
+};

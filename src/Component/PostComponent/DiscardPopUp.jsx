@@ -10,7 +10,17 @@ import { setPostImgUrl } from "../Datastore/ReduxStore/AllSlices/UploadeImgToDBS
 export const DiscardPopUp = ()=> {
     // const [openDiscardModal, setDiscardModal] = useState(false);
     const { openDiscardModal } = useSelector(state => state.PopUpModalSlice);
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  
+  function reset() {
+     dispatch(setDiscardModal(false));
+     dispatch(setOpenModal(false));
+     dispatch(setOpenModal2(false));
+     dispatch(setPostImgUrl(null));
+     dispatch(setEmojiPicker(false));
+     dispatch(setDescription(""));
+     dispatch(setPostImgUrl(""));
+  }
   return (
     <>
       {/* <Button onClick={() => dispatch(setDiscardModal(true))}>Toggle modal</Button> */}
@@ -29,13 +39,7 @@ export const DiscardPopUp = ()=> {
             </h3>
             <div className="flex justify-center gap-4">
                           <Button color="failure" onClick={() => {
-                              dispatch(setDiscardModal(false));
-                              dispatch(setOpenModal(false));
-                              dispatch(setOpenModal2(false));
-                              dispatch(setPostImgUrl(null));
-                              dispatch(setEmojiPicker(false));
-                              dispatch(setDescription(""));
-                              dispatch(setPostImgUrl(""));
+                             reset()
               }}>
                 {"Yes, I'm sure"}
               </Button>

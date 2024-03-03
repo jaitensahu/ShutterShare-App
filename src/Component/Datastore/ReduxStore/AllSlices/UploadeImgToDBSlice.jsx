@@ -5,6 +5,7 @@ const initialState = {
   ProfileImgUrlFromDb: "adasd",
   currentUserProfileImage: "",
   postImageUrl: null,
+  postObject:{},
 };
 export const UploadImgToDBSlice = createSlice({
   name: "UploadImgToDBSlice",
@@ -19,9 +20,12 @@ export const UploadImgToDBSlice = createSlice({
     setPostImgUrl: (state, action) => {
       state.postImageUrl = action.payload;
     },
+    setPostObject: (state, action) => {
+      state.postObject = action.payload;
+    },
   },
 });
 
-export const { setUrl, setProfileImage, setPostImgUrl } =
+export const {setPostObject, setUrl, setProfileImage, setPostImgUrl } =
   UploadImgToDBSlice.actions;
 export default UploadImgToDBSlice.reducer;
