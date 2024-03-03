@@ -7,14 +7,14 @@ import RightDashBoard from "./RightDashBoard";
 import PostComponent from "../PostComponent/PostComponent";
 import InstaStories from "../InstaStories/InstaStories";
 import { useDispatch, useSelector } from "react-redux";
-import { setProfileImage } from "../Datastore/ReduxStore/AllSlices/EditProfileSlice";
+import { setProfileImage } from "../Datastore/ReduxStore/AllSlices/UploadeImgToDBSlice";
 
 const Dashboard = () => {
   let { currentUser, getData } = useContext(Store);
   let auth = getAuth();
   let navigateTo = useNavigate();
   let { currentUserProfileImage } = useSelector(
-    (state) => state.EditProfileSlice
+    (state) => state.UploadImgToDBSlice
   );
   let dispatch = useDispatch();
   // --------Route Protection for UnAuthorized Access to DashBoard--------
@@ -25,7 +25,6 @@ const Dashboard = () => {
   }, [currentUser]);
 
   useEffect( () => {
-    console.log(currentUser.email);
     async function getProfileUrl() {
       let data = await getData(currentUser.email);
     dispatch(setProfileImage(data.profileUrl));

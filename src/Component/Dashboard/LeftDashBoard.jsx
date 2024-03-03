@@ -15,11 +15,17 @@ import "react-modern-drawer/dist/index.css";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./Dashboard.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpenModal } from "../Datastore/ReduxStore/AllSlices/PopUpModalSlice";
+import PopUpModal from "../PostComponent/PopUp";
+import PopUp2 from "../PostComponent/PopUp2";
 
 const LeftDashBoard = () => {
   let { currentUserProfileImage } = useSelector(
-    (state) => state.EditProfileSlice);
+    (state) => state.UploadImgToDBSlice
+  );
+  const dispatch = useDispatch();
+
   // Getting Data From Store
   let { logout, getData, isOpen, setIsOpen, userDataFromDatabase } =
     useContext(Store);
@@ -52,7 +58,10 @@ const LeftDashBoard = () => {
     >
       <div className="w-full popup-content rounded-md">
         <div className="popupPost w-full">
-          <h3 className="w-full py-2  px-2 rounded-md hover:bg-zinc-800">
+          <h3
+            onClick={() => dispatch(setOpenModal(true))}
+            className="w-full py-2  px-2 rounded-md hover:bg-zinc-800"
+          >
             Post
           </h3>
         </div>
@@ -67,6 +76,8 @@ const LeftDashBoard = () => {
 
   return (
     <>
+      <PopUpModal />
+      <PopUp2 />
       {/* Search Bar Drawer Window */}
       <Drawer
         open={isOpen}
@@ -285,6 +296,7 @@ const LeftDashBoard = () => {
                 Logout
               </h3>
             </div>
+            {/* <PopUpModal /> */}
           </div>
         </IconContext.Provider>
       </div>

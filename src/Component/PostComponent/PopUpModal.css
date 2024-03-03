@@ -1,0 +1,62 @@
+.modalHeader {
+    padding: 25px !important;
+    padding-bottom: 10px !important;
+    border: none !important;
+}
+
+.Modal {
+    z-index: 200000;
+
+}
+
+.Modal .h-full div {
+    background-color: #262626;
+}
+
+
+.modalHeader h3 {
+    flex-grow: 1;
+    text-align: center;
+    color: white;
+
+}
+
+.modalHeader button {
+    /* background-color: aqua !important; */
+    margin-left: 0;
+}
+
+.modalBody {
+    padding: 0 25px;
+}
+
+.modalBody label {
+    padding: 50px 0;
+}
+
+.modalFooter {
+    justify-content: space-between;
+}
+
+.captionArea {
+    background-color: #262626;
+    border: none;
+}
+
+.captionArea:active {
+    border: none !important;
+}
+
+.captionArea:focus {
+    border: none !important;
+    box-shadow: none;
+}
+
+.epr-category-nav,
+.epr-header {
+    display: none !important;
+}
+
+.epr_-lzq3oa {
+    display: none !important;
+}

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { Store } from "../../Datastore/Context_SignUpAndLogin";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
@@ -9,10 +15,13 @@ import { nanoid } from "@reduxjs/toolkit";
 import {
   setProfileImage,
   setUrl,
-} from "../../Datastore/ReduxStore/AllSlices/EditProfileSlice";
+} from "../../Datastore/ReduxStore/AllSlices/UploadeImgToDBSlice";
+import { UploadImgGetUrl } from "../../Datastore/ReduxStore/AllSlices/UploadToDB_ExtraSlice";
+// import { UploadImgGetUrl } from "../../Datastore/ReduxStore/AllSlices/UploadToDBSlice";
 
 const EditPopUp = () => {
-  let { imgUrl } = useSelector((state) => state.EditProfileSlice);
+  let { ProfileImgUrlFromDb } = useSelector((state) => state.UploadImgToDBSlice);
+ 
   let dispatch = useDispatch();
   let { userDataFromDatabase, UpdateDataInDataBase, setIsLoading, notify } =
     useContext(Store);
@@ -20,28 +29,8 @@ const EditPopUp = () => {
   const [anchor] = React.useState(null);
   const open = Boolean(anchor);
   const id = open ? "simple-popper" : undefined;
-  let file;
   let description = useRef();
   let gender = useRef();
-
-  // Function to uplaod image to db and get url
-  const getImage = () => {
-    if (file == "") return;
-    let imagesRef = ref(storage, `images/${file.name + nanoid()}`);
-    setIsLoading(true);
-    uploadBytes(imagesRef, file)
-      .then((snapshot) => {
-        console.log("uploaded successfully");
-        return getDownloadURL(snapshot.ref);
-      })
-      .then((url) => {
-        dispatch(setUrl(url));
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-  };
 
   // Change Profile Imagee PopUp Component
   const ChangePhotoPopUp = () => (
@@ -66,8 +55,13 @@ const EditPopUp = () => {
             id="img"
             className="hidden"
             onChange={(e) => {
-              file = e.target.files[0];
-              getImage();
+              dispatch(
+                UploadImgGetUrl({
+                  imageToBeUploaded: e.target.files[0],
+                  loader: setIsLoading,
+                  setter: setUrl,
+                })
+              );
             }}
           />
           <label
@@ -88,7 +82,7 @@ const EditPopUp = () => {
   );
 
   let fileUpload = (event) => {
-    // console.log("in");
+ 
     let src = event.target.value.getAsDataURL();
     this.setState({
       image: src,
@@ -102,7 +96,11 @@ const EditPopUp = () => {
         <h1 className="w-full font-bold text-xl">Edit profile</h1>
         <div className="flex mt-4 justify-between items-center bg-zinc-800 p-4 rounded-2xl">
           <div className="flex items-center gap-3">
-            <img src={imgUrl} alt="" className="rounded-full w-16" />
+            <img
+              src={ProfileImgUrlFromDb}
+              alt=""
+              className="rounded-full w-16"
+            />
             <div>
               <h3 className="font-bold text-lg">
                 {userDataFromDatabase.userName}
@@ -137,13 +135,12 @@ const EditPopUp = () => {
         <button
           className="py-2 px-28 bg-blue-600 rounded-lg w-1/2 m-auto"
           onClick={() => {
-            UpdateDataInDataBase(auth.currentUser.email,{
-              profielUrl: imgUrl,
+            UpdateDataInDataBase(auth.currentUser.email, {
+              profielUrl: ProfileImgUrlFromDb,
               description: description.current.value,
               gender: gender.current.value,
             });
-            dispatch(setProfileImage(imgUrl));
-            
+            dispatch(setProfileImage(ProfileImgUrlFromDb));
           }}
         >
           Submit

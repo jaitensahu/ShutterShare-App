@@ -187,9 +187,7 @@ const ContextStore = ({ children }) => {
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        // console.log("Document data:", docSnap.data());
         setUserData(docSnap.data());
-        // console.log(docSnap.data().userName);
         return docSnap.data();
       } else {
         // docSnap.data() will be undefined in this case
@@ -205,12 +203,10 @@ const ContextStore = ({ children }) => {
   // ------------------------Update Data in DataBase--------------------------
   const UpdateDataInDataBase = async (email,updates) => {
 
-    console.log("updating...", updates);
     try {
       const UpdatedData = doc(db, "users", email);
       console.log(UpdatedData);
       let abc = await updateDoc(UpdatedData, {"userProfileInfo": updates });
-      console.log("data updated", abc);
     } catch (error) {
       console.log("error", error);
     }
@@ -231,13 +227,12 @@ const ContextStore = ({ children }) => {
     try {
       await setDoc(doc(db, `users/${email}`), docData);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   }
   /*--------------------------------------------------------------------------- */
   /*-----------------------   Log in with Google ----------------------------*/
   function signinWithGoogle() {
-    console.log("sign in with google");
     signInWithPopup(auth, provider)
       .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -246,11 +241,7 @@ const ContextStore = ({ children }) => {
         // The signed-in user info.
         const user = result.user;
         let d = await getData(user.email);
-        // console.log(d);
-        // let userExit = await getData(user.email);
-        // console.log(userExit);
         if (d == null) {
-          console.log("setting");
           setUserDataToDataBase(
             user.email,
             user.displayName,
@@ -271,25 +262,18 @@ const ContextStore = ({ children }) => {
         // const email = error.customData.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-        // console.log(email, errorMessage);
       });
   }
   /*-------------------------------------------------------------------------- */
   /*----------------------------   LoginForm   -------------------------------*/
   function loginForm(email, password) {
-    console.log("In ligin function");
+    console.log("in login function");
     setIsLoading(true);
     getData(email);
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
-        // if (!response.user.emailVerified) {
-        //   console.log("Please Verify your email address..!!!");
-        //   setErrorMessage("Please verify your email address..!!!");
-        //   return;
-        // }
         setIsLoading(false);
         setUserObj(response.user);
-        console.log("user Loged in");
       })
       .catch((err) => {
         console.log(err.message);
@@ -314,7 +298,6 @@ const ContextStore = ({ children }) => {
 
   // ----------------Set Error Message --------------------------------------
   function setErrorMessageFunc(error) {
-    console.log(error);
     setErrorMessage(error);
     setTimeout(() => {
       setErrorMessage("");
@@ -357,7 +340,6 @@ const ContextStore = ({ children }) => {
     });
   };
 
-  console.log(isLoading);
   return (
     <Store.Provider
       value={{

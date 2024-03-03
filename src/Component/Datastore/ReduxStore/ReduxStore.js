@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EditProfileSlice from "./AllSlices/EditProfileSlice";
-
+import UploadImgToDBSlice from "./AllSlices/UploadeImgToDBSlice";
+import PopUpModalSlice from "./AllSlices/PopUpModalSlice";
 export default configureStore({
   reducer: {
-    EditProfileSlice,
+    UploadImgToDBSlice,
+    PopUpModalSlice,
   },
 });
+    
