@@ -33,13 +33,19 @@ export const UploadImgGetUrl = createAsyncThunk(
   }
 );
 
-export const UpdateDataInDataBase = async (email, post) => {
-  //  console.log("data for DB:",email, post);
+export const UpdateDataInDataBase = async (action, email, updates) => {
+ 
   try {
     const UpdatedData = doc(db, "users", email);
-    // console.log(UpdatedData);
-    let abc = await updateDoc(UpdatedData, {posts: post });
-    console.log("inserted");
+    if (action == "POST") {
+      let abc = await updateDoc(UpdatedData, { posts: updates });
+    } else if(action == "FOLLOWINGS"){
+        await updateDoc(UpdatedData, { followings: updates });
+    } else if (action == "FOLLOWERS") {
+        await updateDoc(UpdatedData, { followers: updates });
+      
+    }
+    console.log("updated");
   } catch (error) {
     console.log("error", error);
   }

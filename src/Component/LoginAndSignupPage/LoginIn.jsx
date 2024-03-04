@@ -45,38 +45,12 @@ const Login = () => {
       navigateTo(`/shutterShare/`);
     }
   }, [currentUser]);
-  console.log(currentUser);
+ 
 
-  // if (isLoading) {
-  //  return ;
-  // }
-  console.log(isLoading);
+ 
   // -----------------------------------------------------------
   return (
     <div className={style.loginIn}>
-      {/* {isLoading ? (
-        <MutatingDots
-          visible={true}
-          height="100"
-          width="100"
-          color="#4fa94d"
-          secondaryColor="#4fa94d"
-          radius="12.5"
-          ariaLabel="mutating-dots-loading"
-          wrapperStyle={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            zIndex: "10000",
-            transform: "translate(-50%, -50%)",
-            boxShadow: "0 0 1000px 500px #00000087",
-            backgroundColor: "#00000087",
-            border: "none",
-          }}
-          // wrapperClass="loder"
-          // className={style.loder}
-        />
-      ) : null} */}
       <div className={style.subContainer}>
         <div className={`${style.imageOnLeft} relative w-[50%]`}>
           <img src={mobileFrame} alt="" />

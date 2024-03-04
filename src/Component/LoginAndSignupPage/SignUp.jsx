@@ -52,6 +52,7 @@ const SignUp = () => {
 
         <form className={style.loginForm}>
           <input
+            className={style.inputss}
             type="text"
             placeholder="Email"
             ref={signUpEmail}

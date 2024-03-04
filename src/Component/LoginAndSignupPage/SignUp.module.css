@@ -70,6 +70,7 @@
     font-size: 14px;
     border-radius: 2px;
     border: 1px solid rgb(199, 199, 199);
+    background-color: var(--background-color-dark);
 }
 
 .loginForm p {
@@ -100,24 +101,27 @@
     margin: 10px auto;
     min-width: 350px;
 }
-.playStore{
+
+.playStore {
     width: 100%;
     min-width: 350px;
     max-width: 350px;
     margin: auto;
     /* margin: 20px 0; */
 }
-.playStore p{
+
+.playStore p {
     margin: 20px 0;
 }
 
-.playStore .googlePlay{
+.playStore .googlePlay {
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 10px;
 }
-.googlePlay img{
+
+.googlePlay img {
     width: 150px;
     margin: 0px 0 10px;
 }

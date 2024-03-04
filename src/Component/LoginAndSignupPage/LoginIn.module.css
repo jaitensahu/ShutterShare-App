@@ -12,6 +12,7 @@
     font-family: "Roboto", sans-serif;
     text-align: center;
     min-width: 350px;
+    /* background-color: #00158b; */
 }
 
 .loginIn {
@@ -45,6 +46,10 @@
     display: flex;
     flex-direction: column;
     padding: 40px;
+}
+
+.loginForm input {
+    background-color: aqua;
 }
 
 .googlePlay {
@@ -123,7 +128,7 @@
     margin-left: 10px;
 }
 
-.gZmPOF  {
+.gZmPOF {
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
@@ -132,6 +137,10 @@
     background-color: #00000087;
     border: none;
     z-index: 10000;
+}
+
+.inputss {
+    background-color: black;
 }
 
 @media screen and (max-width:800px) {

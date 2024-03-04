@@ -1,11 +1,167 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { NavLink, useParams, useSearchParams } from "react-router-dom";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
 import "reactjs-popup/dist/index.css";
+import useDbData from "../CustomHooks/useDbData";
+import {
+  setIsFollow,
+  setOtherUser,
+  setisAddingInFollower,
+} from "../Datastore/ReduxStore/AllSlices/EditProfileSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { auth, db } from "../firebase";
+import LetteredAvatar from "react-lettered-avatar";
+
+import { Backdrop, Skeleton } from "@mui/material";
+import { UpdateDataInDataBase } from "../Datastore/ReduxStore/AllSlices/UploadToDB_ExtraSlice";
+import { FaUniregistry } from "react-icons/fa";
+import { doc, onSnapshot } from "firebase/firestore";
+import { ColorRing } from "react-loader-spinner";
 
 const EditProfilePage = () => {
   // Getting userData From DataBase
-  let { userDataFromDatabase } = useContext(Store);
+  let params = useParams();
+
+  const dispatch = useDispatch();
+  const { otherUser, isFollow, isAddingInFollower } = useSelector(
+    (state) => state.EditProfileSlice
+  );
+  console.log(isAddingInFollower);
+  let { userDataFromDatabase, getData, isLoading, setIsLoading } =
+    useContext(Store);
+  // console.log(userDataFromDatabase);
+  let [allData] = useDbData();
+  let user = allData.filter((ele) => {
+    return params.userName == ele.userName;
+  });
+  useEffect(() => {
+    dispatch(setOtherUser(...user));
+  }, [user]);
+
+  useEffect(() => {
+    console.log("param Changed");
+    if (
+      userDataFromDatabase?.followings?.some(
+        (ele) => ele.userName == params.userName
+      )
+    ) {
+      dispatch(setIsFollow(true));
+    } else {
+      dispatch(setIsFollow(false));
+    }
+  }, [params.userName]);
+
+  function handleFollowFunc() {
+    getData(auth.currentUser.email);
+    !isPresentInFollowingList() ? pushInFollowingList() : removeFollowing();
+    dispatch(setIsFollow(!isFollow));
+  }
+
+  async function pushInFollowingList() {
+    console.log("Pushing");
+    dispatch(setisAddingInFollower(true));
+
+    // Adding in following
+
+    let d = await UpdateDataInDataBase(
+      "FOLLOWINGS",
+      auth.currentUser.email,
+      userDataFromDatabase.followings
+        ? [...userDataFromDatabase.followings, otherUser]
+        : [otherUser]
+    );
+    getData(userDataFromDatabase.email);
+
+    // Adding Follower
+    let b = await UpdateDataInDataBase(
+      "FOLLOWERS",
+      otherUser.email,
+      userDataFromDatabase.followers
+        ? [...userDataFromDatabase.followers, userDataFromDatabase]
+        : [userDataFromDatabase]
+    );
+    dispatch(setisAddingInFollower(false));
+  }
+
+  async function removeFollowing() {
+    console.log("removing");
+    dispatch(setisAddingInFollower(true));
+    let followingListAfterRemoving = userDataFromDatabase?.followings?.filter(
+      (ele) => ele.userName != otherUser.userName
+    );
+
+    let followerListAfterRemoving = otherUser?.followers?.filter(
+      (ele) => ele.userName != userDataFromDatabase.userName
+    );
+
+    console.log(followingListAfterRemoving);
+    await UpdateDataInDataBase("FOLLOWINGS", auth.currentUser.email, [
+      ...followingListAfterRemoving,
+    ]);
+
+    await UpdateDataInDataBase("FOLLOWERS", otherUser.email, [
+      ...followerListAfterRemoving,
+    ]);
+    dispatch(setisAddingInFollower(false));
+  }
+
+  function isPresentInFollowingList() {
+    console.log(
+      userDataFromDatabase?.followings?.some(
+        (ele) => ele.userName == otherUser.userName
+      )
+    );
+
+    return userDataFromDatabase?.followings?.some(
+      (ele) => ele.userName == otherUser.userName
+    );
+  }
+
+  //  SKELETON
+  if (!otherUser) {
+    return (
+      <>
+        <div className="profilePage flex-grow ">
+          <div className="profileDetail flex items-start gap-20 py-8">
+            <div className="profileImage">
+              <Skeleton
+                sx={{ bgcolor: "grey.900" }}
+                variant="circular"
+                width={210}
+                height={210}
+              />
+            </div>
+            <div>
+              <div className="profileTop flex items-center gap-6">
+                <Skeleton
+                  variant="text"
+                  sx={{ width: "350px", fontSize: "2rem", bgcolor: "grey.900" }}
+                />
+              </div>
+              <div className="profilemid my-3 flex gap-10 w-full">
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: "2rem", bgcolor: "grey.900", width: "30%" }}
+                />
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: "2rem", bgcolor: "grey.900", width: "30%" }}
+                />
+                <Skeleton
+                  variant="text"
+                  sx={{ fontSize: "2rem", bgcolor: "grey.900", width: "30%" }}
+                />
+              </div>
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", bgcolor: "grey.900" }}
+              />
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -13,26 +169,90 @@ const EditProfilePage = () => {
         <div className="profileDetail flex items-start gap-20 py-8">
           <div className="profileImage">
             <img
-              src={userDataFromDatabase.profileUrl}
+              src={
+                otherUser?.profileUrl ? (
+                  otherUser?.profileUrl
+                ) : (
+                  <LetteredAvatar
+                    name="Lettered Avatar"
+                    size={100}
+                    radius={20}
+                    color="#fff"
+                    backgroundColor="rgb(55,55,22)"
+                  />
+                )
+              }
               alt=""
               className="w-40 rounded-full h-40"
             />
           </div>
           <div>
             <div className="profileTop flex items-center gap-6">
-              <h1 className="text-xl">{userDataFromDatabase.userName}</h1>
-              <NavLink
-                to="/shutterShare/account/edit"
-                className="py-2 px-4 text-sm rounded-lg bg-zinc-800"
-              >
-                Edit Profile
-              </NavLink>
+              <h1 className="text-xl">{otherUser?.userName}</h1>
+
+              {otherUser?.userName == userDataFromDatabase?.userName ? (
+                <NavLink
+                  to="/shutterShare/account/edit"
+                  className="py-2 px-4 text-sm rounded-lg bg-zinc-800"
+                >
+                  Edit Profile
+                </NavLink>
+              ) : (
+                <button
+                  onClick={handleFollowFunc}
+                  className={`py-2 px-4 text-sm rounded-lg ${
+                    isAddingInFollower
+                      ? "bg-zinc-800"
+                      : isFollow
+                      ? "bg-zinc-800"
+                      : "bg-blue-600"
+                  }`}
+                >
+                  {isAddingInFollower ? (
+                    <ColorRing
+                      visible={true}
+                      height="20"
+                      width="30"
+                      ariaLabel="color-ring-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="color-ring-wrapper"
+                      colors={[
+                        "#e15b64",
+                        "#f47e60",
+                        "#f8b26a",
+                        "#abbd81",
+                        "#849b87",
+                      ]}
+                    />
+                  ) : isFollow ? (
+                    "Following"
+                  ) : (
+                    "Follow"
+                  )}
+                </button>
+              )}
             </div>
             <div className="profilemid my-3 flex gap-10">
-              <span>100 Posts </span> <span> 200 Follower </span>{" "}
-              <span> 500 Following</span>
+              <span>
+                {otherUser?.posts?.length ? otherUser?.posts?.length : "0"}{" "}
+                Posts{" "}
+              </span>{" "}
+              <span>
+                {" "}
+                {otherUser?.followers?.length
+                  ? otherUser?.followers?.length
+                  : "0"}{" "}
+                Follower{" "}
+              </span>{" "}
+              <span>
+                {" "}
+                {otherUser?.followings?.length
+                  ? otherUser.followings.length
+                  : "0"}{" "}
+                Following
+              </span>
             </div>
-            <div className="profileBottom">{userDataFromDatabase.name}</div>
+            <div className="profileBottom">{otherUser?.name}</div>
             <div className="bio mt-3">Hii write Bio here</div>
           </div>
         </div>

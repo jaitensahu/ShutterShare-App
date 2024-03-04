@@ -40,7 +40,7 @@ const LeftDashBoard = () => {
   const PostAndLivePopup = () => (
     <Popup
       trigger={
-        <div className="flex w-full gap-3 justify-start">
+        <div className="flex w-full gap-3 justify-start ">
           {" "}
           <div>
             <FaRegPlusSquare style={{ fontSize: "18px" }} />{" "}
@@ -56,7 +56,9 @@ const LeftDashBoard = () => {
       }
       position="bottom center"
     >
-      <div className="w-full popup-content rounded-md">
+      <div
+        className={`w-full popup-content absolute left-[30px] max-[1110px]:left-[100px] top-3 rounded-md`}
+      >
         <div className="popupPost w-full">
           <h3
             onClick={() => dispatch(setOpenModal(true))}
@@ -72,6 +74,9 @@ const LeftDashBoard = () => {
         </div>
       </div>
     </Popup>
+    // <Popup trigger={<button> Trigger</button>} position="right center">
+    //   <div>Popup content here !!</div>
+    // </Popup>
   );
 
   return (
@@ -83,7 +88,7 @@ const LeftDashBoard = () => {
         open={isOpen}
         onClose={toggleDrawer}
         direction="left"
-        className="bla bla bla"
+        className="bla bla bla z-50"
         style={{ zIndex: "", left: "0px", width: "30%" }}
         enableOverlay={false}
         overlayOpacity={0}
@@ -92,8 +97,8 @@ const LeftDashBoard = () => {
         <SearchComponent />
       </Drawer>
       <div
-        className={`leftSidebar py-9 h-screen flex flex-col justify-between items-center fixed left-0  ${
-          isOpen ? "border-none" : "border-r-2"
+        className={`leftSidebar py-9 h-screen flex flex-col justify-between items-center fixed z-[500] left-0  ${
+          isOpen ? "border-r-2" : "border-r-2"
         } border-zinc-800 ${isOpen ? "w-20" : "w-1/6"} max-[1110px]:w-20 `}
       >
         <IconContext.Provider

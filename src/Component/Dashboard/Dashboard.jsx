@@ -24,14 +24,16 @@ const Dashboard = () => {
     }
   }, [currentUser]);
 
-  useEffect( () => {
+  useEffect(() => {
     async function getProfileUrl() {
-      let data = await getData(currentUser.email);
-    dispatch(setProfileImage(data.profileUrl));
+      if (currentUser.email) {
+        let data = await getData(currentUser.email);
+        dispatch(setProfileImage(data.profileUrl));
+      }
     }
     getProfileUrl();
   }, []);
- 
+
   // ----------------------------------------------------------
 
   return (
@@ -42,10 +44,6 @@ const Dashboard = () => {
         </div>
         <div className="post flex flex-col gap-5 w-[80%] max-w-[500px] mx-auto">
           {/* <h1>DaSshBoard</h1> */}
-          <PostComponent />
-          <PostComponent />
-          <PostComponent />
-          <PostComponent />
           <PostComponent />
         </div>
       </div>

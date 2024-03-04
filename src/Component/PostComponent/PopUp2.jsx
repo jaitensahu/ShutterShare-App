@@ -60,7 +60,7 @@ const PopUp2 = () => {
     };
     dispatch(setPostObject(postObj));
     console.log(userDataFromDatabase,userDataFromDatabase.posts?"true":"false");
-    UpdateDataInDataBase(auth.currentUser.email, userDataFromDatabase.posts?[...userDataFromDatabase.posts,postObj]: [postObj]);
+    UpdateDataInDataBase("POST",auth.currentUser.email, userDataFromDatabase.posts?[...userDataFromDatabase.posts,postObj]: [postObj]);
   }
  
 

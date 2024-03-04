@@ -10,6 +10,7 @@ import {
   getDocs,
   collection,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 // import { db } from "../firebase";
 
@@ -26,6 +27,7 @@ import {
 } from "firebase/auth";
 import { MutatingDots } from "react-loader-spinner";
 import { db } from "../firebase";
+// import { doc, onSnapshot } from "firebase/firestore";
 // import { GoogleAuthProvider } from "firebase/auth";
 
 export const Store = createContext({});
@@ -188,7 +190,7 @@ const ContextStore = ({ children }) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setUserData(docSnap.data());
-        // console.log(docSnap.data());
+        console.log(docSnap.data());
         return docSnap.data();
       } else {
         // docSnap.data() will be undefined in this case
@@ -199,6 +201,7 @@ const ContextStore = ({ children }) => {
       console.log("got error", error);
     }
   }
+
   /*-------------------------------------------------------------------------- */
 
   // ------------------------Update Data in DataBase--------------------------
@@ -218,7 +221,7 @@ const ContextStore = ({ children }) => {
       name,
       email,
       userName,
-      userCreated: Timestamp.fromDate(new Date()),
+      userCreated: new Date().getTime(),
       profileUrl,
     };
 

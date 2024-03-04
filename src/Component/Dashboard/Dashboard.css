@@ -26,6 +26,14 @@
     min-width: 26px;
 }
 
+.searchBar:focus {
+    border: 0 !important;
+    outline: none !important;
+    --tw-ring-color: none !important;
+}
+
+
+
 
 @media (prefers-color-scheme: dark) {
 
@@ -126,4 +134,18 @@ html[data-theme='light'] .popup-content {
 
 .stories::-webkit-scrollbar {
     width: 0px;
+}
+
+@media screen and (max-width:600px) {
+    .leftSidebar {
+        display: none !important;
+    }
+
+    .Dashboard {
+        margin: 0 !important;
+    }
+
+    .rightsideContainer {
+        margin: 0 !important;
+    }
 }
