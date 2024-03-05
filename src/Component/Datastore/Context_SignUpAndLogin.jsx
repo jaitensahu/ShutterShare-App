@@ -190,7 +190,7 @@ const ContextStore = ({ children }) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setUserData(docSnap.data());
-        console.log(docSnap.data());
+        // console.log(docSnap.data());
         return docSnap.data();
       } else {
         // docSnap.data() will be undefined in this case

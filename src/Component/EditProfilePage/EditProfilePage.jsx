@@ -19,27 +19,26 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { ColorRing } from "react-loader-spinner";
 
 const EditProfilePage = () => {
-  // Getting userData From DataBase
   let params = useParams();
-
   const dispatch = useDispatch();
   const { otherUser, isFollow, isAddingInFollower } = useSelector(
     (state) => state.EditProfileSlice
   );
-  console.log(isAddingInFollower);
+
   let { userDataFromDatabase, getData, isLoading, setIsLoading } =
     useContext(Store);
-  // console.log(userDataFromDatabase);
+ 
   let [allData] = useDbData();
   let user = allData.filter((ele) => {
     return params.userName == ele.userName;
   });
   useEffect(() => {
+    console.log(user);
     dispatch(setOtherUser(...user));
-  }, [user]);
+  }, [params.userName, user]);
 
   useEffect(() => {
-    console.log("param Changed");
+    console.log("param Changed", userDataFromDatabase, otherUser);
     if (
       userDataFromDatabase?.followings?.some(
         (ele) => ele.userName == params.userName
@@ -49,16 +48,18 @@ const EditProfilePage = () => {
     } else {
       dispatch(setIsFollow(false));
     }
-  }, [params.userName]);
+  }, [otherUser]);
 
-  function handleFollowFunc() {
-    getData(auth.currentUser.email);
+  async function handleFollowFunc() {
+    await getData(auth.currentUser.email);
     !isPresentInFollowingList() ? pushInFollowingList() : removeFollowing();
+    console.log("setting follower");
     dispatch(setIsFollow(!isFollow));
   }
 
   async function pushInFollowingList() {
     console.log("Pushing");
+    getData(userDataFromDatabase.email);
     dispatch(setisAddingInFollower(true));
 
     // Adding in following
@@ -70,14 +71,14 @@ const EditProfilePage = () => {
         ? [...userDataFromDatabase.followings, otherUser]
         : [otherUser]
     );
-    getData(userDataFromDatabase.email);
 
+    console.log("otherUser=",otherUser, "userDataFromDb=",userDataFromDatabase);
     // Adding Follower
     let b = await UpdateDataInDataBase(
       "FOLLOWERS",
       otherUser.email,
-      userDataFromDatabase.followers
-        ? [...userDataFromDatabase.followers, userDataFromDatabase]
+      otherUser.followers
+        ? [...otherUser.followers, userDataFromDatabase]
         : [userDataFromDatabase]
     );
     dispatch(setisAddingInFollower(false));
@@ -85,20 +86,22 @@ const EditProfilePage = () => {
 
   async function removeFollowing() {
     console.log("removing");
+    getData(userDataFromDatabase.email);
     dispatch(setisAddingInFollower(true));
+
     let followingListAfterRemoving = userDataFromDatabase?.followings?.filter(
       (ele) => ele.userName != otherUser.userName
     );
+    console.log("filtered following list of loggined =", followingListAfterRemoving);
+    await UpdateDataInDataBase("FOLLOWINGS", auth.currentUser.email, [
+      ...followingListAfterRemoving,
+    ]);
 
     let followerListAfterRemoving = otherUser?.followers?.filter(
       (ele) => ele.userName != userDataFromDatabase.userName
     );
 
-    console.log(followingListAfterRemoving);
-    await UpdateDataInDataBase("FOLLOWINGS", auth.currentUser.email, [
-      ...followingListAfterRemoving,
-    ]);
-
+    console.log("filtered follower of target=", followerListAfterRemoving);
     await UpdateDataInDataBase("FOLLOWERS", otherUser.email, [
       ...followerListAfterRemoving,
     ]);
@@ -106,18 +109,12 @@ const EditProfilePage = () => {
   }
 
   function isPresentInFollowingList() {
-    console.log(
-      userDataFromDatabase?.followings?.some(
-        (ele) => ele.userName == otherUser.userName
-      )
-    );
-
     return userDataFromDatabase?.followings?.some(
       (ele) => ele.userName == otherUser.userName
     );
   }
 
-  //  SKELETON
+
   if (!otherUser) {
     return (
       <>

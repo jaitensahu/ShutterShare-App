@@ -7,9 +7,9 @@ import { useSelector } from "react-redux";
 const useDbData = () => {
   const [userData, setUserData] = useState([]);
   let { isAddingInFollower } = useSelector((state) => state.EditProfileSlice);
-  console.log(isAddingInFollower);
+  // console.log(isAddingInFollower);
   useEffect(() => {
-    console.log("useEffect gets Called");
+    console.log("useDbData gets Called");
     const fetchData = async () => {
       try {
         const tempArr = [];
