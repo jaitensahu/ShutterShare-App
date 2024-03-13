@@ -9,7 +9,7 @@
 
 .Dashboard {
     left: 20%;
-    height: 300vh;
+    /* height: 300vh; */
     /* z-index: -2; */
 }
 
@@ -55,6 +55,10 @@
         display: none;
     }
 
+    .navTabs:hover {
+        background-color: #27272A;
+    }
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -62,6 +66,10 @@
     .leftSidebar,
     .SearchComponent {
         background-color: #ffffff;
+    }
+
+    .navTabs:hover {
+        background-color: #e5e4e4;
     }
 }
 
@@ -101,6 +109,8 @@ path {
     background-color: rgb(41, 45, 62);
     color: #fff;
 }
+
+
 
 .changephoto {
     box-shadow: 0 0 1000px 1000px rgba(0, 0, 0, 0.47);

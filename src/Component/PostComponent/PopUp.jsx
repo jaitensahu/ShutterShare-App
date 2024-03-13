@@ -44,6 +44,8 @@ export default function PopUpModal() {
           dispatch(setDiscardModal(true));
         }}
       >
+
+
         <Modal.Header
           // style={{ backgroundColor: "red", padding: "0" }}
           id="modalHeader"

@@ -8,7 +8,8 @@ const initialState = {
   openPicker: false,
   postDescription: "",
   showPostModal: false,
-  showPost:null,
+  showPost: null,
+  likedArray: [],
 };
 
 export const PopUpModalSlice = createSlice({
@@ -39,6 +40,9 @@ export const PopUpModalSlice = createSlice({
     setShowPost: (state, action) => {
       state.showPost = action.payload;
     },
+    setLikedArray: (state, action) => {
+      state.likedArray = action.payload;
+    }
   },
 });
 
@@ -51,6 +55,7 @@ export const {
   setDescription,
   setShowPostModal,
   setShowPost,
+  setLikedArray,
 } = PopUpModalSlice.actions;
 
 export default PopUpModalSlice.reducer;

@@ -17,19 +17,22 @@ import { UpdateDataInDataBase } from "../Datastore/ReduxStore/AllSlices/UploadTo
 import { auth } from "../firebase";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
 import { nanoid } from "@reduxjs/toolkit";
+import { ToastContainer } from "react-toastify";
 
 const PopUp2 = () => {
   const dispatch = useDispatch();
   const { openModal2, openPicker, postDescription } = useSelector(
     (state) => state.PopUpModalSlice
   );
+
   const { postImageUrl, postObject } = useSelector(
     (state) => state.UploadImgToDBSlice
   );
-  const { getData, userDataFromDatabase } = useContext(Store);
+  const { getData, userDataFromDatabase, isLoading, setIsLoading, notify } =
+    useContext(Store);
   // console.log(getData, userDataFromDatabase.post);
-  function shareNreset() {
-    getData(auth.currentUser.email)
+  async function shareNreset() {
+    getData(auth.currentUser.email);
     dispatch(setDiscardModal(false));
     dispatch(setOpenModal(false));
     dispatch(setOpenModal2(false));
@@ -40,6 +43,9 @@ const PopUp2 = () => {
     const postObj = {
       _id: nanoid(),
       url: postImageUrl,
+      profileUrl: userDataFromDatabase.profileUrl,
+      userName: userDataFromDatabase.userName,
+      email:userDataFromDatabase.email,
       desc: postDescription,
       uploadTimeStamp: new Date().getTime(),
       comments: [
@@ -56,16 +62,29 @@ const PopUp2 = () => {
           commentTime: "",
         },
       ],
-      likesCount: 12,
+      likesCount: 0,
     };
     dispatch(setPostObject(postObj));
-    console.log(userDataFromDatabase,userDataFromDatabase.posts?"true":"false");
-    UpdateDataInDataBase("POST",auth.currentUser.email, userDataFromDatabase.posts?[...userDataFromDatabase.posts,postObj]: [postObj]);
+    setIsLoading(true);
+    console.log(
+      userDataFromDatabase,
+      userDataFromDatabase.posts ? "true" : "false"
+    );
+
+    await UpdateDataInDataBase(
+      "POST",
+      auth.currentUser.email,
+      userDataFromDatabase.posts
+        ? [...userDataFromDatabase.posts, postObj]
+        : [postObj],
+      notify
+    );
+    setIsLoading(false);
   }
- 
 
   return (
     <>
+      <ToastContainer />
       <Modal
         className="Modal bg-black"
         show={openModal2}

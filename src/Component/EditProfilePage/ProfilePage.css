@@ -9,6 +9,18 @@
     display: flex !important;
 }
 
+
+@media (prefers-color-scheme: light) {
+    .bgColor {
+        background-color: #e5e4e4;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .bgColor {
+        background-color: #27272A;
+    }
+}
+
 /* .postItems:hover .likeCommentScreen {
     background-color: rgba(0, 0, 0, 0.477);
 } */

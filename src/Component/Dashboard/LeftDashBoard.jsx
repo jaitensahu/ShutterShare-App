@@ -27,13 +27,20 @@ const LeftDashBoard = () => {
   const dispatch = useDispatch();
 
   // Getting Data From Store
-  let { logout, getData, isOpen, setIsOpen, userDataFromDatabase } =
-    useContext(Store);
+  let {
+    logout,
+    getData,
+    isOpen,
+    setIsOpen,
+    userDataFromDatabase,
+    searchInpRef,
+  } = useContext(Store);
   let auth = getAuth();
 
   // Function to open Drawer (Search Bar Component)
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
+     
   };
 
   // PopComponent for Post And Live Options
@@ -62,15 +69,13 @@ const LeftDashBoard = () => {
         <div className="popupPost w-full">
           <h3
             onClick={() => dispatch(setOpenModal(true))}
-            className="w-full py-2  px-2 rounded-md hover:bg-zinc-800"
+            className="w-full py-2  px-2 rounded-md  navTabs"
           >
             Post
           </h3>
         </div>
         <div className="live">
-          <h3 className="w-full py-2 px-2 rounded-md hover:bg-zinc-800">
-            Live
-          </h3>
+          <h3 className="w-full py-2 px-2 rounded-md navTabs">Live</h3>
         </div>
       </div>
     </Popup>
@@ -121,7 +126,7 @@ const LeftDashBoard = () => {
             <NavLink
               to="/shutterShare/"
               className={({ isActive }) =>
-                `icons flex gap-3 justify-start items-center hover:cursor-pointer w-full p-2 hover:bg-zinc-800  ${
+                `icons flex gap-3 justify-start items-center hover:cursor-pointer w-full p-2 navTabs  ${
                   isActive ? "font-bold" : "font-base"
                 } `
               }
@@ -142,7 +147,7 @@ const LeftDashBoard = () => {
                 onClick={() => {
                   getData(auth.currentUser.email);
                 }}
-                className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800 `}
+                className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs`}
               >
                 <div>
                   <IoSearch
@@ -162,7 +167,7 @@ const LeftDashBoard = () => {
             <NavLink
               to="/shutterShare/Explore"
               className={({ isActive }) =>
-                `icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  ${
+                `icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  ${
                   isActive ? "font-bold" : "font-normal"
                 }`
               }
@@ -181,7 +186,7 @@ const LeftDashBoard = () => {
             <NavLink
               to="/shutterShare/reels"
               className={({ isActive }) =>
-                `icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  ${
+                `icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  ${
                   isActive ? "font-bold" : "font-normal"
                 }`
               }
@@ -212,7 +217,7 @@ const LeftDashBoard = () => {
               </h3>
             </NavLink>
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  `}
+              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <div>
                 <RiMessengerLine style={{ fontSize: "18px" }} />{" "}
@@ -226,7 +231,7 @@ const LeftDashBoard = () => {
               </h3>
             </div>
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  `}
+              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <div>
                 <FaRegHeart style={{ fontSize: "18px" }} />{" "}
@@ -241,7 +246,7 @@ const LeftDashBoard = () => {
             </div>
 
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800      `}
+              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs     `}
             >
               <PostAndLivePopup />
             </div>
@@ -252,7 +257,7 @@ const LeftDashBoard = () => {
                   ? userDataFromDatabase.userName
                   : null
               }`}
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  `}
+              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <img
                 src={
@@ -273,7 +278,7 @@ const LeftDashBoard = () => {
 
           <div className="leftBottom w-[70%]">
             <div
-              className={`icons p-2 flex gap-3  justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-800  `}
+              className={`icons p-2 flex gap-3  justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <div>
                 <FaThreads style={{ fontSize: "18px" }} />
@@ -287,7 +292,7 @@ const LeftDashBoard = () => {
               </h3>
             </div>
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer hover:bg-zinc-900  `}
+              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <div>
                 <MdOutlineMenu style={{ fontSize: "18px" }} />

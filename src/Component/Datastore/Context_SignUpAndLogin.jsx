@@ -44,6 +44,7 @@ const ContextStore = ({ children }) => {
   let loginEmail = useRef();
   let loginPass = useRef();
   let [showErrorMessage, setErrorMessage] = useState("");
+  let searchInpRef = useRef();
 
   // let [signUpUserName, setSignUpUserName] = useState("");
   let [currentUser, setUserObj] = useState({});
@@ -189,8 +190,7 @@ const ContextStore = ({ children }) => {
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setUserData(docSnap.data());
-        // console.log(docSnap.data());
+          setUserData(()=>docSnap.data());
         return docSnap.data();
       } else {
         // docSnap.data() will be undefined in this case
@@ -373,6 +373,7 @@ const ContextStore = ({ children }) => {
         sendPassVerificationLink,
         setIsLoading,
         notify,
+        searchInpRef,
       }}
     >
       <div>

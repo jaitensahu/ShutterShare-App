@@ -17,6 +17,7 @@ import { UpdateDataInDataBase } from "../Datastore/ReduxStore/AllSlices/UploadTo
 import { FaUniregistry } from "react-icons/fa";
 import { doc, onSnapshot } from "firebase/firestore";
 import { ColorRing } from "react-loader-spinner";
+import './ProfilePage.css'
 
 const EditProfilePage = () => {
   let params = useParams();
@@ -25,25 +26,19 @@ const EditProfilePage = () => {
     (state) => state.EditProfileSlice
   );
 
-  let { userDataFromDatabase, getData, isLoading, setIsLoading } =
+  let { userDataFromDatabase, getData, notify, isLoading, setIsLoading } =
     useContext(Store);
- 
+
   let [allData] = useDbData();
   let user = allData.filter((ele) => {
     return params.userName == ele.userName;
   });
   useEffect(() => {
-    console.log(user);
     dispatch(setOtherUser(...user));
   }, [params.userName, user]);
 
   useEffect(() => {
-    console.log("param Changed", userDataFromDatabase, otherUser);
-    if (
-      userDataFromDatabase?.followings?.some(
-        (ele) => ele.userName == params.userName
-      )
-    ) {
+    if (userDataFromDatabase?.followings?.includes(params.userName)) {
       dispatch(setIsFollow(true));
     } else {
       dispatch(setIsFollow(false));
@@ -53,12 +48,10 @@ const EditProfilePage = () => {
   async function handleFollowFunc() {
     await getData(auth.currentUser.email);
     !isPresentInFollowingList() ? pushInFollowingList() : removeFollowing();
-    console.log("setting follower");
     dispatch(setIsFollow(!isFollow));
   }
 
   async function pushInFollowingList() {
-    console.log("Pushing");
     getData(userDataFromDatabase.email);
     dispatch(setisAddingInFollower(true));
 
@@ -68,52 +61,55 @@ const EditProfilePage = () => {
       "FOLLOWINGS",
       auth.currentUser.email,
       userDataFromDatabase.followings
-        ? [...userDataFromDatabase.followings, otherUser]
-        : [otherUser]
+        ? [...userDataFromDatabase.followings, otherUser.userName]
+        : [otherUser.userName],
+      notify
     );
 
-    console.log("otherUser=",otherUser, "userDataFromDb=",userDataFromDatabase);
+      
     // Adding Follower
     let b = await UpdateDataInDataBase(
       "FOLLOWERS",
       otherUser.email,
       otherUser.followers
-        ? [...otherUser.followers, userDataFromDatabase]
-        : [userDataFromDatabase]
+        ? [...otherUser.followers, userDataFromDatabase.userName]
+        : [userDataFromDatabase.userName],
+      notify
     );
     dispatch(setisAddingInFollower(false));
   }
 
   async function removeFollowing() {
-    console.log("removing");
     getData(userDataFromDatabase.email);
     dispatch(setisAddingInFollower(true));
 
     let followingListAfterRemoving = userDataFromDatabase?.followings?.filter(
-      (ele) => ele.userName != otherUser.userName
+      (ele) => ele != otherUser.userName
     );
-    console.log("filtered following list of loggined =", followingListAfterRemoving);
-    await UpdateDataInDataBase("FOLLOWINGS", auth.currentUser.email, [
-      ...followingListAfterRemoving,
-    ]);
+    
+    await UpdateDataInDataBase(
+      "FOLLOWINGS",
+      auth.currentUser.email,
+      [...followingListAfterRemoving],
+      notify
+    );
 
     let followerListAfterRemoving = otherUser?.followers?.filter(
-      (ele) => ele.userName != userDataFromDatabase.userName
+      (ele) => ele  != userDataFromDatabase.userName
     );
 
-    console.log("filtered follower of target=", followerListAfterRemoving);
-    await UpdateDataInDataBase("FOLLOWERS", otherUser.email, [
-      ...followerListAfterRemoving,
-    ]);
+    await UpdateDataInDataBase(
+      "FOLLOWERS",
+      otherUser.email,
+      [...followerListAfterRemoving],
+      notify
+    );
     dispatch(setisAddingInFollower(false));
   }
 
   function isPresentInFollowingList() {
-    return userDataFromDatabase?.followings?.some(
-      (ele) => ele.userName == otherUser.userName
-    );
+    return userDataFromDatabase?.followings?.includes(otherUser.userName);
   }
-
 
   if (!otherUser) {
     return (
@@ -190,7 +186,7 @@ const EditProfilePage = () => {
               {otherUser?.userName == userDataFromDatabase?.userName ? (
                 <NavLink
                   to="/shutterShare/account/edit"
-                  className="py-2 px-4 text-sm rounded-lg bg-zinc-800"
+                  className="py-2 px-4 text-sm rounded-lg bgColor"
                 >
                   Edit Profile
                 </NavLink>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import "../Dashboard.css";
 import { Store } from "../../Datastore/Context_SignUpAndLogin";
@@ -12,6 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { nanoid } from "@reduxjs/toolkit";
 const SearchComponent = () => {
   let { isOpen } = useContext(Store);
+  let searchInpRef = useRef("");
+  console.log("hiiii", isOpen);
+
   const { searchBarInp, filteredData } = useSelector(
     (state) => state.DashboardSlice
   );
@@ -29,7 +32,7 @@ const SearchComponent = () => {
       <h3 className="text-2xl font-semibold pt-6 pb-10">Search</h3>
       <div className="searchForm rounded-xl flex w-11/12 items-center bg-zinc-800 p-1 ml-3  mb-4">
         <input
-          autoFocus={isOpen}
+          ref={searchInpRef}
           type="text"
           placeholder="Search"
           className="searchBar w-11/12 outline-none bg-transparent border-0"
@@ -39,7 +42,10 @@ const SearchComponent = () => {
           }}
           value={searchBarInp}
         />
-        <IoIosCloseCircle size={20} />
+        <IoIosCloseCircle
+          size={20}
+          onClick={() => dispatch(setSearchBarInp(""))}
+        />
       </div>
       <hr className=" " />
 

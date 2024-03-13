@@ -1,13 +1,16 @@
 import { collection, getDocs } from "firebase/firestore";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { db } from "../firebase";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserData } from "../Datastore/ReduxStore/AllSlices/DashboardSlice";
 
 const useDbData = () => {
-  const [userData, setUserData] = useState([]);
-  let { isAddingInFollower } = useSelector((state) => state.EditProfileSlice);
-  // console.log(isAddingInFollower);
+  const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.DashboardSlice);
+  const { isAddingInFollower } = useSelector((state) => state.EditProfileSlice);
+  const tempArrRef = useRef([]);
+
   useEffect(() => {
     console.log("useDbData gets Called");
     const fetchData = async () => {
@@ -15,17 +18,20 @@ const useDbData = () => {
         const tempArr = [];
         const querySnapshot = await getDocs(collection(db, "users"));
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
           tempArr.push(doc.data());
         });
-        setUserData([...tempArr]);
+
+        if (JSON.stringify(tempArr) !== JSON.stringify(tempArrRef.current)) {
+          dispatch(setUserData([...tempArr]));
+          tempArrRef.current = tempArr;
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData(); // Call the async function inside useEffect
-  }, [isAddingInFollower]); // Empty dependency array means this effect runs once after the initial render
+  }, [isAddingInFollower, dispatch]);
 
   return [userData];
 };
