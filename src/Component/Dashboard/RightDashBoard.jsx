@@ -1,5 +1,6 @@
 import React, { memo, useContext } from "react";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
+import LetteredAvatar from "react-lettered-avatar";
 
 const RightDashBoard = () => {
   let { currentUser, userDataFromDatabase } = useContext(Store);
@@ -9,16 +10,22 @@ const RightDashBoard = () => {
       <div className="rightSideBar w-[100%] py-[30px]  h-screen">
         <div className="w-full ">
           <div className="profile flex justify-between gap-[10px] items-center">
-            <div className="profileImgAndName flex gap-2">
-              <img
-                src={
-                  userDataFromDatabase != null
-                    ? userDataFromDatabase.profileUrl
-                    : ""
-                }
-                className="w-11 rounded-full"
-                alt=""
-              />
+            <div className="profileImgAndName flex items-center gap-2">
+              {userDataFromDatabase.profileUrl != "" ? (
+                <img
+                  src={userDataFromDatabase.profileUrl}
+                  className="w-11 rounded-full border-3"
+                  alt=""
+                />
+              ) : (
+                <LetteredAvatar
+                  name={userDataFromDatabase.name}
+                  size={35}
+                  radius={50}
+                  color="#fff"
+                  // backgroundColor="rgb(55,55,22)"
+                />
+              )}
               <div className="name_UserName">
                 <p className="font-bold ">
                   {userDataFromDatabase != null
@@ -99,9 +106,9 @@ const RightDashBoard = () => {
             <div className="profileImgAndName flex gap-2">
               <img
                 src={
-                  userDataFromDatabase != null
+                  userDataFromDatabase.profileUrl != ""
                     ? userDataFromDatabase.profileUrl
-                    : ""
+                    : "https://www.freeiconspng.com/uploads/profile-icon-9.png"
                 }
                 className="w-11 rounded-full"
                 alt=""

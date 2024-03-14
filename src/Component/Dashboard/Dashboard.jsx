@@ -87,60 +87,60 @@ const Dashboard = () => {
   // ----------------------------------------------------------
 
   return (
-    <div
-      className="w-[100%] flex gap-[50px] justify-around dashboardContainer pr-[5%]"
-     
-    >
+    <div className="w-[100%] flex gap-[50px] justify-around dashboardContainer pr-[5%]">
       <div className="Dashboard flex flex-col w-[60%]  ml-[3%]">
         <div>
           <InstaStories />
         </div>
         <div className="post flex flex-col gap-5 w-[80%] max-w-[500px] mx-auto">
           {userPostData.length == 0 ? (
-            <SkeletonTheme baseColor="#202020" highlightColor="#444">
-              {[1, 2, 3].map((ele) => (
-                <div className="flex flex-col gap-2" key={nanoid()}>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-2 items-center">
-                      <Skeleton circle={true} className="w-[40px] h-[40px]" />
-                      <div className="subLeft flex gap-1 items-center ">
-                        <p className="w-[100px]">
-                          <Skeleton count={1} />
-                        </p>
-                      </div>
-                    </div>
-                    <div></div>
-                  </div>
-
-                  <div className="postSkeleton   h-96 justify-center items-center flex    ">
-                    <Skeleton className="w-[100%] h-full" />
-                  </div>
-
-                  <div className="icons">
-                    <div className="flex gap-2 ">
-                      <Skeleton className="w-[20px]" />
-                      <Skeleton className="w-[20px]" />
-                    </div>
-
-                    <div>
-                      <Skeleton />
-                    </div>
-                    {/* <div
-                      className={`isShowMore? "h-auto":"h-[30px]" flex items-center`}
-                    >
-                      <span className="max-w-[60%] py-1 whitespace-nowrap inline-block overflow-ellipsis overflow-x-hidden">
-                        {" "}
-                        <Skeleton />
-                      </span>
-                    </div> */}
-                    <div>
-                      <Skeleton />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </SkeletonTheme>
+            <div className="h-[40vh] flex items-center justify-center">
+              <h1>You Don't have any friends... Go and make some</h1>
+            </div>
           ) : (
+            // <SkeletonTheme baseColor="#202020" highlightColor="#444">
+            //   {[1, 2, 3].map((ele) => (
+            //     <div className="flex flex-col gap-2" key={nanoid()}>
+            //       <div className="flex justify-between items-center">
+            //         <div className="flex gap-2 items-center">
+            //           <Skeleton circle={true} className="w-[40px] h-[40px]" />
+            //           <div className="subLeft flex gap-1 items-center ">
+            //             <p className="w-[100px]">
+            //               <Skeleton count={1} />
+            //             </p>
+            //           </div>
+            //         </div>
+            //         <div></div>
+            //       </div>
+
+            //       <div className="postSkeleton   h-96 justify-center items-center flex    ">
+            //         <Skeleton className="w-[100%] h-full" />
+            //       </div>
+
+            //       <div className="icons">
+            //         <div className="flex gap-2 ">
+            //           <Skeleton className="w-[20px]" />
+            //           <Skeleton className="w-[20px]" />
+            //         </div>
+
+            //         <div>
+            //           <Skeleton />
+            //         </div>
+            //         {/* <div
+            //           className={`isShowMore? "h-auto":"h-[30px]" flex items-center`}
+            //         >
+            //           <span className="max-w-[60%] py-1 whitespace-nowrap inline-block overflow-ellipsis overflow-x-hidden">
+            //             {" "}
+            //             <Skeleton />
+            //           </span>
+            //         </div> */}
+            //         <div>
+            //           <Skeleton />
+            //         </div>
+            //       </div>
+            //     </div>
+            //   ))}
+            // </SkeletonTheme>
             userPostData.map((ele) => <NewFeeds key={nanoid()} {...ele} />)
           )}
           {/* <NewFeeds key={nanoid()}   /> */}

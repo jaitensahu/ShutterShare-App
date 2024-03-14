@@ -18,9 +18,13 @@ import { auth } from "../firebase";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
 import { nanoid } from "@reduxjs/toolkit";
 import { ToastContainer } from "react-toastify";
+import { setPost } from "../Datastore/ReduxStore/AllSlices/EditProfileSlice";
 
 const PopUp2 = () => {
   const dispatch = useDispatch();
+  const { postOnProfile } = useSelector(
+    (state) => state.EditProfileSlice
+  );
   const { openModal2, openPicker, postDescription } = useSelector(
     (state) => state.PopUpModalSlice
   );
@@ -65,6 +69,8 @@ const PopUp2 = () => {
       likesCount: 0,
     };
     dispatch(setPostObject(postObj));
+   let updatedPostArray = [...postOnProfile, postObj]
+    dispatch(setPost(updatedPostArray));
     setIsLoading(true);
     console.log(
       userDataFromDatabase,

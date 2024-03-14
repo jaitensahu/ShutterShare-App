@@ -3,8 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../Datastore/Context_SignUpAndLogin";
 import Dashboard from "../Dashboard/Dashboard";
 import style from "./SignUp.module.css";
+import { ToastContainer, cssTransition } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "animate.css";
 
 const SignUp = () => {
+   const fadeIn = cssTransition({
+     enter: "animate__animated animate__fadeIn",
+     exit: "animate__animated animate__fadeOut",
+   });
   let navigateTo = useNavigate();
   let {
     handleInputRef,
@@ -94,7 +101,12 @@ const SignUp = () => {
               console.log(response);
               if (!response) {
                 navigateTo("/login");
+                
               }
+              signUpEmail.current.value = "";
+              signUpName.current.value = "";
+              signUpUserName.current.value = "";
+              signUpPass.current.value = "";
             }}
           >
             Sign up
@@ -126,6 +138,7 @@ const SignUp = () => {
           />
         </div>
       </div>
+      <ToastContainer transition={fadeIn} />
     </div>
   );
 };

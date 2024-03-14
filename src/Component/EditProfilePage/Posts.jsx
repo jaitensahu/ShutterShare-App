@@ -16,10 +16,22 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { nanoid } from "nanoid";
 import useLikedPost from "../CustomHooks/useLikedPost";
+import { RiH1 } from "react-icons/ri";
+import { setPost } from "../Datastore/ReduxStore/AllSlices/EditProfileSlice";
 
 const Posts = () => {
+  const dispatch = useDispatch();
+  const { otherUser, postOnProfile } = useSelector(
+    (state) => state.EditProfileSlice
+  );
+
+  useEffect(() => {
+    dispatch(setPost(otherUser?.posts ? otherUser?.posts : []));
+  }, [otherUser]);
+
+
+  console.log(postOnProfile);
   const { getData, userDataFromDatabase } = useContext(Store);
-  const { otherUser } = useSelector((state) => state.EditProfileSlice);
   let [postsLikeComments] = useLikedPost();
   let [comments, setComments] = useState([]);
   // let [commentCount, setCommentCount] = useState(0);
@@ -29,7 +41,6 @@ const Posts = () => {
     (state) => state.PopUpModalSlice
   );
 
-  const dispatch = useDispatch();
   useEffect(() => {
     getData(auth.currentUser?.email);
   }, []);
@@ -134,58 +145,60 @@ const Posts = () => {
         </Modal.Footer> */}
       </Modal>
 
-      <div className="flex w-[80%] gap-1 flex-wrap">
-        {otherUser?.posts
-          ? otherUser?.posts.map((ele) => {
-              {
-                likeCount = 0;
-                commentsCount = 0;
-                console.log(postsLikeComments);
-                let currPost = postsLikeComments.find(
-                  (item) => item.id == ele._id
-                );
-                console.log(!currPost);
-                if (currPost) {
-                  likeCount = currPost.likeBy.length;
-                  commentsCount = currPost.comments.length;
-                }
-              }
-              return (
-                <div
-                  // onClick={(e)=>{console.log(e);}}
-                  onClick={() => {
-                    // console.log(ele._id);
-                    handleOnClick(ele._id);
-                    dispatch(setShowPostModal(true));
-                  }}
-                  key={ele?._id}
-                  className="postItems w-[310px] h-[310px] overflow-hidden flex items-center relative cursor-pointer"
-                >
-                  <LazyLoadImage
-                    effect="blur"
-                    className="w-full h-full object-cover"
-                    src={ele?.url}
-                    alt=""
-                  />
-                  <div className="likeCommentScreen flex gap-4 justify-center items-center text-white font-bold absolute z-10 top-0 w-full h-full">
-                    <p className="flex items-center gap-2">
-                      <span>
-                        <FaHeart style={{ fontSize: "25px" }} />
-                      </span>
-                      <span>{likeCount}</span>
-                    </p>
-                    <p className="flex items-center gap-2 ">
-                      <span>
-                        {" "}
-                        <FaComment style={{ fontSize: "25px" }} />
-                      </span>
-                      <span>{commentsCount}</span>
-                    </p>
-                  </div>
-                </div>
+      <div className="flex w-[80%] gap-1 flex-wrap ">
+        {postOnProfile.length != 0 ? (
+          postOnProfile.map((ele) => {
+            {
+              likeCount = 0;
+              commentsCount = 0;
+              console.log(postsLikeComments);
+              let currPost = postsLikeComments.find(
+                (item) => item.id == ele._id
               );
-            })
-          : "No Post Yet"}
+              console.log(!currPost);
+              if (currPost) {
+                likeCount = currPost.likeBy.length;
+                commentsCount = currPost.comments.length;
+              }
+            }
+            return (
+              <div
+                // onClick={(e)=>{console.log(e);}}
+                onClick={() => {
+                  // console.log(ele._id);
+                  handleOnClick(ele._id);
+                  dispatch(setShowPostModal(true));
+                }}
+                key={ele?._id}
+                className="postItems w-[310px] h-[310px] overflow-hidden flex items-center relative cursor-pointer"
+              >
+                <LazyLoadImage
+                  effect="blur"
+                  className="w-full h-full object-cover"
+                  src={ele?.url}
+                  alt=""
+                />
+                <div className="likeCommentScreen flex gap-4 justify-center items-center text-white font-bold absolute z-10 top-0 w-full h-full">
+                  <p className="flex items-center gap-2">
+                    <span>
+                      <FaHeart style={{ fontSize: "25px" }} />
+                    </span>
+                    <span>{likeCount}</span>
+                  </p>
+                  <p className="flex items-center gap-2 ">
+                    <span>
+                      {" "}
+                      <FaComment style={{ fontSize: "25px" }} />
+                    </span>
+                    <span>{commentsCount}</span>
+                  </p>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <h1 className="w-full text-center">No Post Yet</h1>
+        )}
       </div>
     </>
   );

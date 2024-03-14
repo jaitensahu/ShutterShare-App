@@ -20,8 +20,10 @@ import { UploadImgGetUrl } from "../../Datastore/ReduxStore/AllSlices/UploadToDB
 // import { UploadImgGetUrl } from "../../Datastore/ReduxStore/AllSlices/UploadToDBSlice";
 
 const EditPopUp = () => {
-  let { ProfileImgUrlFromDb } = useSelector((state) => state.UploadImgToDBSlice);
- 
+  let { ProfileImgUrlFromDb } = useSelector(
+    (state) => state.UploadImgToDBSlice
+  );
+
   let dispatch = useDispatch();
   let { userDataFromDatabase, UpdateDataInDataBase, setIsLoading, notify } =
     useContext(Store);
@@ -82,13 +84,12 @@ const EditPopUp = () => {
   );
 
   let fileUpload = (event) => {
- 
     let src = event.target.value.getAsDataURL();
     this.setState({
       image: src,
     });
   };
-
+  console.log(ProfileImgUrlFromDb);
   return (
     <div className="w-full ">
       {/* <img src={image} alt="" /> */}
@@ -97,7 +98,11 @@ const EditPopUp = () => {
         <div className="flex mt-4 justify-between items-center bg-zinc-800 p-4 rounded-2xl">
           <div className="flex items-center gap-3">
             <img
-              src={ProfileImgUrlFromDb}
+              src={
+                ProfileImgUrlFromDb == ""
+                  ? "https://www.freeiconspng.com/uploads/profile-icon-9.png"
+                  : ProfileImgUrlFromDb
+              }
               alt=""
               className="rounded-full w-16"
             />

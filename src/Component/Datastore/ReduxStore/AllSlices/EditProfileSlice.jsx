@@ -4,6 +4,7 @@ const initialState = {
   otherUser: null,
   isFollow: false,
   isAddingInFollower: false,
+  postOnProfile:[],
 };
 
 const EditProfileSlice = createSlice({
@@ -19,9 +20,12 @@ const EditProfileSlice = createSlice({
     setisAddingInFollower: (state, action) => {
       state.isAddingInFollower = action.payload;
     },
+    setPost: (state, action) => {
+      state.postOnProfile = action.payload;
+    }
   },
 });
 
-export const { setOtherUser, setIsFollow, setisAddingInFollower } =
+export const { setOtherUser, setPost, setIsFollow, setisAddingInFollower } =
   EditProfileSlice.actions;
 export default EditProfileSlice.reducer;

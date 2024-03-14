@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOpenModal } from "../Datastore/ReduxStore/AllSlices/PopUpModalSlice";
 import PopUpModal from "../PostComponent/PopUp";
 import PopUp2 from "../PostComponent/PopUp2";
+import LetteredAvatar from "react-lettered-avatar";
+import logo from "../../../public/logo-white.png";
 
 const LeftDashBoard = () => {
   let { currentUserProfileImage } = useSelector(
@@ -40,7 +42,6 @@ const LeftDashBoard = () => {
   // Function to open Drawer (Search Bar Component)
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
-     
   };
 
   // PopComponent for Post And Live Options
@@ -83,6 +84,7 @@ const LeftDashBoard = () => {
     //   <div>Popup content here !!</div>
     // </Popup>
   );
+  console.log(userDataFromDatabase.name);
 
   return (
     <>
@@ -112,16 +114,14 @@ const LeftDashBoard = () => {
           <div className={`leftMiddle w-[70%] flex flex-col items-center`}>
             <div className="  instaIcon max-[1110px]:hidden">
               {isOpen ? (
-                <FaInstagram
-                  style={{ fontSize: "20px", marginBottom: "16px" }}
-                />
+                <img src={logo} className="rounded-full w-[40px] " />
               ) : (
                 <h1>ShutterShare</h1>
               )}
             </div>
-            <FaInstagram
-              style={{ fontSize: "20px", marginBottom: "16px" }}
-              className="min-[1110px]:hidden"
+            <img
+              src={logo}
+              className="min-[1110px]:hidden rounded-full w-[40px]"
             />
             <NavLink
               to="/shutterShare/"
@@ -259,13 +259,21 @@ const LeftDashBoard = () => {
               }`}
               className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
-              <img
-                src={
-                  currentUserProfileImage != "" ? currentUserProfileImage : null
-                }
-                alt=""
-                className="rounded-full w-8"
-              />{" "}
+              {currentUserProfileImage != "" ? (
+                <img
+                  src={currentUserProfileImage}
+                  alt=""
+                  className="rounded-full w-8 border-2"
+                />
+              ) : (
+                <LetteredAvatar
+                  name={userDataFromDatabase.name}
+                  size={30}
+                  radius={50}
+                  color="#fff"
+                  // background="linear-gradient(black,rgb(22,55,22))"
+                />
+              )}
               <h3
                 className={`text-base ${
                   isOpen ? "hidden" : "visible"

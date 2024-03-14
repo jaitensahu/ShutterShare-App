@@ -90,27 +90,31 @@ const ContextStore = ({ children }) => {
     if (!validateUserDetail(password)) {
       return true;
     }
-
+    // let flag = true;
     //  Creating New User Account
-    createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        sendEmailVerificationLink();
+        console.log("creating");
+
         // Set Data to DataBase in users array
         setUserDataToDataBase(email, name, userName);
         //  Setting Input fields to empty
-        signUpEmail.current.value = "";
-        signUpName.current.value = "";
-        signUpUserName.current.value = "";
-        signUpPass.current.value = "";
+        // signUpEmail.current.value = "";
+        // signUpName.current.value = "";
+        // signUpUserName.current.value = "";
+        // signUpPass.current.value = "";
         // sendEmailVerificationLink();
       })
       .catch((error) => {
+        console.log(error.message);
         const errorMessage = error.message;
         setErrorMessageFunc(errorMessage);
-        return true;
+        return false;
       });
-
-    return false;
+    console.log("end");
+    return true;
   }
 
   function updateUser() {
@@ -190,7 +194,7 @@ const ContextStore = ({ children }) => {
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-          setUserData(()=>docSnap.data());
+        setUserData(() => docSnap.data());
         return docSnap.data();
       } else {
         // docSnap.data() will be undefined in this case
@@ -271,10 +275,20 @@ const ContextStore = ({ children }) => {
     console.log("in login function");
     setIsLoading(true);
     getData(email);
+    console.log(auth.currentUser);
+    if (auth.currentUser && !auth.currentUser.emailVerified) {
+      notify(
+        "verify your email...If you already did refresh your page and try again...!"
+      );
+      setIsLoading(false);
+      return;
+    }
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
         setIsLoading(false);
         setUserObj(response.user);
+        console.log("Logged In");
+        notify("Login successfull.");
       })
       .catch((err) => {
         console.log(err.message);
@@ -307,12 +321,37 @@ const ContextStore = ({ children }) => {
   // -----------------------------------------------------------------------------
   /*-----------------------Send Email Verification Link ------------------------- */
   function sendEmailVerificationLink() {
+    // var actionCodeSettings = {
+    //   url: "https://www.example.com/?email=" + firebase.auth().currentUser.email,
+    //   iOS: {
+    //     bundleId: "com.example.ios",
+    //   },
+    //   android: {
+    //     packageName: "com.example.android",
+    //     installApp: true,
+    //     minimumVersion: "12",
+    //   },
+    //   handleCodeInApp: true,
+    //   // When multiple custom dynamic link domains are defined, specify which
+    //   // one to use.
+    //   dynamicLinkDomain: "example.page.link",
+    // };
+    // firebase
+    //   .auth()
+    //   .currentUser.sendEmailVerification(actionCodeSettings)
+    //   .then(function () {
+    //     // Verification email sent.
+    //   })
+    //   .catch(function (error) {
+    //     // Error occurred. Inspect error.code.
+    //   });
+
+    // -----------------------------------------------------
     const auth = getAuth();
     sendEmailVerification(auth.currentUser).then(() => {
-      // Email verification sent!
-      // ...
-      console.log("Email verification sent");
+      notify("Email verification sent");
     });
+    // -------------------------------------------------------
   }
   /*------------------------Send password change link to user's email--------------------- */
   function sendPassVerificationLink(mail) {
@@ -336,6 +375,7 @@ const ContextStore = ({ children }) => {
   /*----------------------------------------------------------------------------------- */
 
   const notify = (message) => {
+    console.log("Called");
     toast(message, {
       position: "bottom-center",
     });

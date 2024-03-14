@@ -17,7 +17,7 @@ import { UpdateDataInDataBase } from "../Datastore/ReduxStore/AllSlices/UploadTo
 import { FaUniregistry } from "react-icons/fa";
 import { doc, onSnapshot } from "firebase/firestore";
 import { ColorRing } from "react-loader-spinner";
-import './ProfilePage.css'
+import "./ProfilePage.css";
 
 const EditProfilePage = () => {
   let params = useParams();
@@ -66,7 +66,6 @@ const EditProfilePage = () => {
       notify
     );
 
-      
     // Adding Follower
     let b = await UpdateDataInDataBase(
       "FOLLOWERS",
@@ -86,7 +85,7 @@ const EditProfilePage = () => {
     let followingListAfterRemoving = userDataFromDatabase?.followings?.filter(
       (ele) => ele != otherUser.userName
     );
-    
+
     await UpdateDataInDataBase(
       "FOLLOWINGS",
       auth.currentUser.email,
@@ -95,7 +94,7 @@ const EditProfilePage = () => {
     );
 
     let followerListAfterRemoving = otherUser?.followers?.filter(
-      (ele) => ele  != userDataFromDatabase.userName
+      (ele) => ele != userDataFromDatabase.userName
     );
 
     await UpdateDataInDataBase(
@@ -161,23 +160,21 @@ const EditProfilePage = () => {
       <div className="profilePage flex-grow ">
         <div className="profileDetail flex items-start gap-20 py-8">
           <div className="profileImage">
-            <img
-              src={
-                otherUser?.profileUrl ? (
-                  otherUser?.profileUrl
-                ) : (
-                  <LetteredAvatar
-                    name="Lettered Avatar"
-                    size={100}
-                    radius={20}
-                    color="#fff"
-                    backgroundColor="rgb(55,55,22)"
-                  />
-                )
-              }
-              alt=""
-              className="w-40 rounded-full h-40"
-            />
+            {otherUser?.profileUrl ? (
+              <img
+                src={otherUser?.profileUrl}
+                alt=""
+                className="w-40 rounded-full h-40"
+              />
+            ) : (
+              <LetteredAvatar
+                name={otherUser.name}
+                size={100}
+                radius={50}
+                color="#fff"
+                // backgroundColor="rgb(55,55,22)"
+              />
+            )}
           </div>
           <div>
             <div className="profileTop flex items-center gap-6">

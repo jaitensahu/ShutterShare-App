@@ -1,5 +1,6 @@
 import { nanoid } from "@reduxjs/toolkit";
 import React from "react";
+import logo from "../../../public/logo-white.png";
 
 const InstaStories = () => {
   return (
@@ -7,13 +8,9 @@ const InstaStories = () => {
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((ele) => {
         return (
           <div key={nanoid()} className="w-[80px] flex flex-col items-center">
-            <img
-              src="https://marketplace.canva.com/EAFXS8-cvyQ/1/0/1600w/canva-brown-and-light-brown%2C-circle-framed-instagram-profile-picture-2PE9qJLmPac.jpg"
-              alt=""
-              className="w-[75%] rounded-full"
-            />
-            <h2 className="whitespace-nowrap overflow-hidden overflow-ellipsis w-[90%] text-[14px]">
-              prodfsdfsdfasddsdsfsdfsdffile name
+            <img src={logo} alt="" className="w-[75%] rounded-full" />
+            <h2 className="whitespace-nowrap text-center overflow-hidden overflow-ellipsis w-[90%] text-[14px]">
+              Stories
             </h2>
           </div>
         );
