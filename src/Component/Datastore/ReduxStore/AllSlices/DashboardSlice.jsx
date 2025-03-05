@@ -31,7 +31,6 @@ const DashboardSlice = createSlice({
       state.currentLikeCount = action.payload;
     },
     setUserPostData: (state, action) => {
-      // console.log(action.payload);
       state.userPostData = action.payload;
     },
     setUserData: (state, action) => {
@@ -39,7 +38,7 @@ const DashboardSlice = createSlice({
     },
     setLiked: (state, action) => {
       state.isLiked = action.payload;
-    }
+    },
   },
 });
 
@@ -66,7 +65,7 @@ function functionHandleInput(dispatch, userData, searchBarInp) {
   }
 }
 
-export const debouncedHandleInput = debounce(functionHandleInput, 800);
+export const debouncedHandleInput = debounce(functionHandleInput, 1000);
 
 export const {
   setSearchBarInp,

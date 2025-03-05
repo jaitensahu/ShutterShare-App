@@ -84,7 +84,6 @@ const LeftDashBoard = () => {
     //   <div>Popup content here !!</div>
     // </Popup>
   );
-  console.log(userDataFromDatabase.name);
 
   return (
     <>
@@ -104,7 +103,7 @@ const LeftDashBoard = () => {
         <SearchComponent />
       </Drawer>
       <div
-        className={`leftSidebar py-9 h-screen flex flex-col justify-between items-center fixed z-[500] left-0  ${
+        className={`leftSidebar py-9 h-screen flex flex-col justify-between items-center fixed z-[500] left-0 max-[600px]:top-auto  ${
           isOpen ? "border-r-2" : "border-r-2"
         } border-zinc-800 ${isOpen ? "w-20" : "w-1/6"} max-[1110px]:w-20 `}
       >
@@ -121,7 +120,7 @@ const LeftDashBoard = () => {
             </div>
             <img
               src={logo}
-              className="min-[1110px]:hidden rounded-full w-[40px]"
+              className="shutterLogo min-[1110px]:hidden rounded-full w-[40px]"
             />
             <NavLink
               to="/shutterShare/"
@@ -167,7 +166,7 @@ const LeftDashBoard = () => {
             <NavLink
               to="/shutterShare/Explore"
               className={({ isActive }) =>
-                `icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  ${
+                `icons explore p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  ${
                   isActive ? "font-bold" : "font-normal"
                 }`
               }
@@ -186,7 +185,7 @@ const LeftDashBoard = () => {
             <NavLink
               to="/shutterShare/reels"
               className={({ isActive }) =>
-                `icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  ${
+                `icons reels p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  ${
                   isActive ? "font-bold" : "font-normal"
                 }`
               }
@@ -217,7 +216,7 @@ const LeftDashBoard = () => {
               </h3>
             </NavLink>
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
+              className={`icons chat p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <div>
                 <RiMessengerLine style={{ fontSize: "18px" }} />{" "}
@@ -231,7 +230,7 @@ const LeftDashBoard = () => {
               </h3>
             </div>
             <div
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
+              className={`icons notification p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               <div>
                 <FaRegHeart style={{ fontSize: "18px" }} />{" "}
@@ -257,7 +256,7 @@ const LeftDashBoard = () => {
                   ? userDataFromDatabase.userName
                   : null
               }`}
-              className={`icons p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
+              className={`icons profile p-2 flex gap-3 justify-start items-center w-full hover:cursor-pointer navTabs  `}
             >
               {currentUserProfileImage != "" ? (
                 <img

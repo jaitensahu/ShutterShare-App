@@ -133,7 +133,9 @@ const NewFeeds = (post) => {
               {" "}
               {post.userName} {post.desc}
             </span>
-            {post.desc.length > 10 ? <span className="text-zinc-600">more</span>:null}
+            {post.desc.length > 10 ? (
+              <span className="text-zinc-600">more</span>
+            ) : null}
           </div>
           {commentCount > 2 ? (
             <div className="text-gray-500">

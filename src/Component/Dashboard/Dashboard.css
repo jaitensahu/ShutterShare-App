@@ -148,7 +148,13 @@ html[data-theme='light'] .popup-content {
 
 @media screen and (max-width:600px) {
     .leftSidebar {
-        display: none !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        height: auto !important;
+        top: auto !important;
+        bottom: 0 !important;
+        padding: 0px !important;
     }
 
     .Dashboard {
@@ -158,4 +164,65 @@ html[data-theme='light'] .popup-content {
     .rightsideContainer {
         margin: 0 !important;
     }
+
+    .leftMiddle {
+        flex-grow: 1;
+        justify-content: space-around !important;
+        flex-direction: row !important;
+        width: auto !important;
+    }
+
+    .leftBottom {
+        width: auto !important;
+        display: flex;
+        flex-direction: row !important;
+    }
+
+    .explore {
+        display: none !important;
+    }
+
+    .chat {
+        width: min-content !important;
+        position: fixed;
+        top: 0;
+        right: 0;
+    }
+
+    .shutterLogo {
+        /* width: min-content !important; */
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .leftBottom {
+        display: none !important;
+    }
+
+    .notification {
+        position: fixed;
+        top: 0;
+        right: 50px;
+    }
+
+    .reels {
+        order: 3;
+    }
+
+    .profile {
+        order: 5;
+    }
+
+    .icons {
+        margin: 0 !important;
+    }
+
+    .icons>div {
+        justify-content: center !important;
+    }
+}
+
+#root {
+    overflow-x: hidden;
 }
