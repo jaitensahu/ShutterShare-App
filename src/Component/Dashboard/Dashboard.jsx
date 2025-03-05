@@ -1,4 +1,5 @@
 import React, {
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -29,7 +30,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const Dashboard = () => {
-  let { currentUser, getData, userDataFromDatabase, setIsOpen } =
+
+  console.log("Dashboard Called");
+
+
+  let { currentUser, getData, userDataFromDatabase} =
     useContext(Store);
   let { userPostData, userData } = useSelector((state) => state.DashboardSlice);
 
@@ -65,7 +70,7 @@ const Dashboard = () => {
     if (tempPost.length > 0) dispatch(setUserPostData(tempPost));
   }, [userData]);
 
-  // console.log("userPostData", userPostData);
+
 
   // --------Route Protection for UnAuthorized Access to DashBoard--------
   useEffect(() => {
@@ -153,4 +158,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default memo(Dashboard);

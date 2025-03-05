@@ -254,7 +254,7 @@ const ContextStore = ({ children }) => {
             user.photoURL
           );
         }
-
+        setUserData(user);
         setUserObj(user);
         // Need to add a condition if the User data is already present in the Database then user should Login and Navigate to the Dashboard
       })

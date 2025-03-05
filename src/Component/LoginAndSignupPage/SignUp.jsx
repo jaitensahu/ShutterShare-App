@@ -31,7 +31,7 @@ const SignUp = () => {
     setErrorMessage,
   } = useContext(Store);
 
-  // -----------If User SignUp Navigating to DashBoard -------------------
+  // -----------If User SignUps Navigating to DashBoard -------------------
   useEffect(() => {
     if (Object.keys(currentUser).length > 0) {
       navigateTo("/shutterShare/:Dashboard");

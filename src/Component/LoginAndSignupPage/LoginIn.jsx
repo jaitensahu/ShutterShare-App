@@ -109,7 +109,7 @@ const Login = () => {
                   loginForm(loginEmail.current.value, loginPass.current.value);
                 }}
               >
-                Login In
+                Login
               </button>
             </div>
             <div className={style.OR}>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { memo, useContext, useRef } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import "../Dashboard.css";
 import { Store } from "../../Datastore/Context_SignUpAndLogin";
@@ -13,12 +13,10 @@ import { nanoid } from "@reduxjs/toolkit";
 const SearchComponent = () => {
   let { isOpen } = useContext(Store);
   let searchInpRef = useRef("");
-  console.log("hiiii", isOpen);
 
-  const { searchBarInp, filteredData } = useSelector(
+  const {filteredData } = useSelector(
     (state) => state.DashboardSlice
   );
-  // console.log(searchBarInp);
   const [userData] = useDbData();
   const dispatch = useDispatch();
   let navigateTo = useNavigate();
@@ -37,14 +35,12 @@ const SearchComponent = () => {
           placeholder="Search"
           className="searchBar w-11/12 outline-none bg-transparent border-0"
           onChange={(e) => {
-            dispatch(setSearchBarInp(e.target.value));
             debouncedHandleInput(dispatch, userData, e.target.value);
           }}
-          value={searchBarInp}
         />
         <IoIosCloseCircle
           size={20}
-          onClick={() => dispatch(setSearchBarInp(""))}
+          onClick={() => searchInpRef.current.value=""}
         />
       </div>
       <hr className=" " />
@@ -71,4 +67,4 @@ const SearchComponent = () => {
   );
 };
 
-export default SearchComponent;
+export default memo(SearchComponent);
